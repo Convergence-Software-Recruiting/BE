@@ -30,4 +30,12 @@ public class Admin {
     @Column(nullable = false)
     @Builder.Default
     private AdminRole role = AdminRole.ADMIN;
+
+    public void changePasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
+    }
+
+    public void changeUsername(String username) {
+        this.username = username;
+    }
 }
