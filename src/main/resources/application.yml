@@ -10,3 +10,14 @@ spring:
 
 server:
   port: 8080
+
+jwt:
+  secret: ${JWT_SECRET}
+  expiration-seconds: ${JWT_EXPIRATION_SECONDS:3600}
+
+cookie:
+  secure: ${COOKIE_SECURE:false}
+
+springdoc:
+  swagger-ui:
+    withCredentials: true
