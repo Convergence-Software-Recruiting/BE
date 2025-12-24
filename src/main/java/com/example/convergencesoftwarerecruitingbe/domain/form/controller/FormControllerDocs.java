@@ -22,15 +22,24 @@ public interface FormControllerDocs {
     })
     ResponseEntity<FormActiveResponse> getActiveForm();
 
-    @Operation(summary = "지원서 제출", description = "폼의 최신 PUBLISHED 버전으로 지원서를 제출합니다.")
+    @Operation(hidden = true, summary = "지원서 제출", description = "폼의 최신 PUBLISHED 버전으로 지원서를 제출합니다.")
+    ResponseEntity<ApplicationSubmitResponse> submitApplication(
+            @PathVariable Long formId,
+            @Valid
+            @RequestBody @Schema(implementation = ApplicationSubmitRequest.class) ApplicationSubmitRequest request
+    );
+
+    @Operation(
+            summary = "(프론트용) 활성 폼에 지원서 제출 – formId 불필요",
+            description = "현재 활성화된 폼의 최신 PUBLISHED 버전에 지원서를 제출합니다."
+    )
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "지원서 제출 성공"),
             @ApiResponse(responseCode = "400", description = "유효하지 않은 요청", content = @Content),
-            @ApiResponse(responseCode = "404", description = "폼 또는 버전을 찾을 수 없음", content = @Content),
+            @ApiResponse(responseCode = "404", description = "활성 폼 또는 버전을 찾을 수 없음", content = @Content),
             @ApiResponse(responseCode = "409", description = "이미 제출된 학번", content = @Content)
     })
-    ResponseEntity<ApplicationSubmitResponse> submitApplication(
-            @PathVariable Long formId,
+    ResponseEntity<ApplicationSubmitResponse> submitActiveApplication(
             @Valid
             @RequestBody @Schema(implementation = ApplicationSubmitRequest.class) ApplicationSubmitRequest request
     );

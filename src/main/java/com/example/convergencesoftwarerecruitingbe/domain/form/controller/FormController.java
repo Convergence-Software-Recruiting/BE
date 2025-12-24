@@ -41,4 +41,14 @@ public class FormController implements FormControllerDocs {
         ApplicationSubmitResponse response = applicationSubmitService.submit(formId, request);
         return ResponseEntity.status(201).body(response);
     }
+
+    @Override
+    @PostMapping("/active/apply")
+    public ResponseEntity<ApplicationSubmitResponse> submitActiveApplication(
+            @Valid @RequestBody ApplicationSubmitRequest request
+    ) {
+        FormActiveResponse activeForm = formQueryService.getActiveForm();
+        ApplicationSubmitResponse response = applicationSubmitService.submit(activeForm.getFormId(), request);
+        return ResponseEntity.status(201).body(response);
+    }
 }
