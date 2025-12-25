@@ -8,6 +8,7 @@ import com.example.convergencesoftwarerecruitingbe.global.auth.jwt.JwtConstants;
 import com.example.convergencesoftwarerecruitingbe.global.auth.jwt.JwtService;
 import com.example.convergencesoftwarerecruitingbe.global.auth.principal.AdminPrincipal;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -26,8 +27,10 @@ import java.time.Duration;
 @Validated
 @RestController
 @RequiredArgsConstructor
+@Tag(name = "admin-login-controller", description = "관리자 로그인 관련 API")
 @RequestMapping("/api/admin")
-public class LoginController {
+public class LoginController implements
+       LoginControllerDocs {
 
     private final AdminAuthService adminAuthService;
     private final JwtService jwtService;

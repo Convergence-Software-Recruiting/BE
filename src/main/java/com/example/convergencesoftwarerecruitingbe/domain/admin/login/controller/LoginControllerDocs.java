@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 public interface LoginControllerDocs {
 
     @Operation(
-            summary = "관리자 로그인",
+            summary = "[ADMIN] 관리자 로그인",
             description = """
                     username/password로 로그인합니다.
                     성공 시 HttpOnly 쿠키(ADMIN_ACCESS_TOKEN)를 Set-Cookie로 내려줍니다.
@@ -31,7 +31,7 @@ public interface LoginControllerDocs {
     );
 
     @Operation(
-            summary = "관리자 로그아웃",
+            summary = "[ADMIN] 관리자 로그아웃",
             description = "토큰 쿠키(ADMIN_ACCESS_TOKEN)를 만료(Max-Age=0)시킵니다."
     )
     @ApiResponses({
@@ -40,7 +40,7 @@ public interface LoginControllerDocs {
     ResponseEntity<Void> logout();
 
     @Operation(
-            summary = "내 정보 조회",
+            summary = "[ADMIN] 내 정보 조회",
             description = "로그인으로 발급된 HttpOnly 쿠키(ADMIN_ACCESS_TOKEN)가 필요합니다."
     )
     @ApiResponses({
