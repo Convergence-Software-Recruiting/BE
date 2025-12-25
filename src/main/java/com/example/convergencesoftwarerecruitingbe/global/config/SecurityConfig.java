@@ -31,7 +31,9 @@ public class SecurityConfig {
                                 "/v3/api-docs/**",
                                 "/swagger-ui.html",
                                 "/api/admin/login",
-                                "/api/admin/logout"
+                                "/api/admin/logout",
+                                "/api/forms/active",
+                                "/api/forms/active/apply"
                         ).permitAll()
 
                         .requestMatchers("/api/admin/**").authenticated()

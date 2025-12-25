@@ -8,6 +8,7 @@ import com.example.convergencesoftwarerecruitingbe.global.auth.cookie.CookieProp
 import com.example.convergencesoftwarerecruitingbe.global.auth.jwt.JwtConstants;
 import com.example.convergencesoftwarerecruitingbe.global.auth.jwt.JwtService;
 import com.example.convergencesoftwarerecruitingbe.global.auth.principal.AdminPrincipal;
+import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -36,7 +37,7 @@ public class AdminAccountController implements AdminAccountControllerDocs {
     @Override
     @PostMapping("/verify-password")
     public ResponseEntity<Void> verifyPassword(
-            @AuthenticationPrincipal AdminPrincipal principal,
+            @Parameter(hidden = true) @AuthenticationPrincipal AdminPrincipal principal,
             @Valid @RequestBody VerifyPasswordRequest request
     ) {
         adminAccountService.verifyPassword(principal.getId(), request.getCurrentPassword());
@@ -46,7 +47,7 @@ public class AdminAccountController implements AdminAccountControllerDocs {
     @Override
     @PatchMapping("/password")
     public ResponseEntity<Void> changePassword(
-            @AuthenticationPrincipal AdminPrincipal principal,
+            @Parameter(hidden = true) @AuthenticationPrincipal AdminPrincipal principal,
             @Valid @RequestBody ChangePasswordRequest request
     ) {
         adminAccountService.changePassword(
@@ -60,7 +61,7 @@ public class AdminAccountController implements AdminAccountControllerDocs {
     @Override
     @PatchMapping("/username")
     public ResponseEntity<Void> changeUsername(
-            @AuthenticationPrincipal AdminPrincipal principal,
+            @Parameter(hidden = true) @AuthenticationPrincipal AdminPrincipal principal,
             @Valid @RequestBody ChangeUsernameRequest request
     ) {
         String token = adminAccountService.changeUsernameAndIssueNewToken(

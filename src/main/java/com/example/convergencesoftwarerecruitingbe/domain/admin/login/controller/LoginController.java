@@ -8,6 +8,7 @@ import com.example.convergencesoftwarerecruitingbe.global.auth.jwt.JwtConstants;
 import com.example.convergencesoftwarerecruitingbe.global.auth.jwt.JwtService;
 import com.example.convergencesoftwarerecruitingbe.global.auth.principal.AdminPrincipal;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -36,6 +37,7 @@ public class LoginController implements
     private final JwtService jwtService;
     private final CookieProperties cookieProperties;
 
+    @Override
     @Operation(
             summary = "관리자 로그인",
             description = "성공 시 HttpOnly 쿠키(ADMIN_ACCESS_TOKEN)를 Set-Cookie로 내려줍니다."
@@ -50,6 +52,7 @@ public class LoginController implements
                 .build();
     }
 
+    @Override
     @Operation(
             summary = "관리자 로그아웃",
             description = "토큰 쿠키(ADMIN_ACCESS_TOKEN)를 만료(Max-Age=0)시킵니다."
@@ -62,12 +65,13 @@ public class LoginController implements
                 .build();
     }
 
+    @Override
     @Operation(
             summary = "내 정보 조회",
             description = "로그인으로 발급된 HttpOnly 쿠키(ADMIN_ACCESS_TOKEN)가 필요합니다."
     )
     @GetMapping("/me")
-    public LoginResponse me(@AuthenticationPrincipal AdminPrincipal principal) {
+    public LoginResponse me(@Parameter(hidden = true) @AuthenticationPrincipal AdminPrincipal principal) {
         return LoginResponse.from(principal);
     }
 

@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,7 +28,7 @@ public interface LoginControllerDocs {
             @ApiResponse(responseCode = "401", description = "로그인 실패", content = @Content)
     })
     ResponseEntity<Void> login(
-            @RequestBody @Schema(implementation = LoginRequest.class) LoginRequest request
+            @Valid @RequestBody @Schema(implementation = LoginRequest.class) LoginRequest request
     );
 
     @Operation(
