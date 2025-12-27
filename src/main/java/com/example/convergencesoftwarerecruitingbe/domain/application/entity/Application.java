@@ -78,4 +78,12 @@ public class Application {
     protected void onSubmit() {
         this.submittedAt = LocalDateTime.now();
     }
+
+    public void updateStatus(ApplicationStatus status) {
+        this.status = status;
+    }
+
+    public void updateAdminMemo(String adminMemo) {
+        this.adminMemo = adminMemo;
+    }
 }
