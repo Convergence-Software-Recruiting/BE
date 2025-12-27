@@ -38,19 +38,15 @@ public class ApplicationSubmitRequest {
 
     @NotEmpty
     @Valid
-    @Schema(example = """
-            {
-              "name": "홍길동",
-              "studentNo": "202312345",
-              "major": "CONVERGENCE_SOFTWARE",
-              "grade": "GRADE_3",
-              "phone": "010-1234-5678",
-              "answers": [
-                { "questionId": 10, "value": "지원 동기입니다" },
-                { "questionId": 11, "value": "경험과 프로젝트" }
-              ]
-            }
-            """)
+    @Schema(
+            description = "질문 답변 목록",
+            example = """
+    [
+      { "questionId": 10, "value": "지원 동기입니다" },
+      { "questionId": 11, "value": "경험과 프로젝트" }
+    ]
+    """
+    )
     private List<AnswerItem> answers;
 
     @Getter

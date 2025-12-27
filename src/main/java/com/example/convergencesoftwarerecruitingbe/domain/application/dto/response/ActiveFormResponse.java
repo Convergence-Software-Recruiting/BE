@@ -24,16 +24,11 @@ public class ActiveFormResponse {
     private final String description;
 
     @Schema(description = "질문 리스트", example = """
-            {
-              "formId": 1,
-              "title": "2026-1학기 모집",
-              "description": "설명...",
-              "questions": [
-                { "id": 10, "orderNo": 1, "label": "지원 동기", "description": null, "required": true },
-                { "id": 11, "orderNo": 2, "label": "경험", "description": "프로젝트 포함", "required": false }
-              ]
-            }
-            """)
+[
+  { "id": 10, "orderNo": 1, "label": "지원 동기", "description": null, "required": true },
+  { "id": 11, "orderNo": 2, "label": "경험", "description": "프로젝트 포함", "required": false }
+]
+""")
     private final List<QuestionItem> questions;
 
     public static ActiveFormResponse of(Form form, List<Question> questions) {
