@@ -23,6 +23,11 @@ minio:
   secret-key: ${MINIO_SECRET_KEY}
   bucket: ${MINIO_BUCKET}
 
+admin:
+  seed:
+    username: ${ADMIN_SEED_USERNAME:}
+    password: ${ADMIN_SEED_PASSWORD:}
+
 logging:
   level:
     org.springframework.security: DEBUG

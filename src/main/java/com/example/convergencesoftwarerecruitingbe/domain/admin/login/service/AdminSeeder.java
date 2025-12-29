@@ -14,7 +14,6 @@ import org.springframework.util.StringUtils;
 
 @Slf4j
 @Component
-@Profile("local")
 @RequiredArgsConstructor
 public class AdminSeeder {
 
