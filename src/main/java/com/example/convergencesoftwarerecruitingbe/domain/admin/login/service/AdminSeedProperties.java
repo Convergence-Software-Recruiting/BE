@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 @Getter
 @Setter
 @Component
-@Profile("local")
 @ConfigurationProperties(prefix = "admin.seed")
 public class AdminSeedProperties {
     private String username;
