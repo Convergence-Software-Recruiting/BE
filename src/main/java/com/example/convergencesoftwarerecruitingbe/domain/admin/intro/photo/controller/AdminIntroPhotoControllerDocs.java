@@ -20,7 +20,7 @@ import java.util.List;
 public interface AdminIntroPhotoControllerDocs {
 
     @Operation(
-            summary = "[ADMIN] Intro 활동사진 업로드용 Presigned URL 발급",
+            summary = "Intro 활동사진 업로드용 Presigned URL 발급",
             description = """
                     intro/photos/{uuid}{ext} 형태의 objectKey를 생성하여 presigned PUT URL을 발급합니다.
                     uploadUrl로 PUT 업로드 시 Content-Type 헤더를 반드시 포함해야 합니다.
@@ -37,7 +37,7 @@ public interface AdminIntroPhotoControllerDocs {
     );
 
     @Operation(
-        summary = "[ADMIN] Intro 활동사진 등록 (메타데이터 저장)",
+        summary = "Intro 활동사진 등록 (메타데이터 저장)",
         description = "Presign+PUT 업로드 완료 후 objectKey와 sortOrder를 저장합니다. publicUrl은 서버가 계산하며 201을 반환합니다."
     )
     @ApiResponses({
@@ -49,7 +49,7 @@ public interface AdminIntroPhotoControllerDocs {
             @RequestBody @Schema(implementation = CreatePhotoRequest.class) CreatePhotoRequest request
     );
 
-    @Operation(summary = "[ADMIN] Intro 활동사진 삭제", description = "해당 사진의 DB 레코드와 MinIO 객체를 함께 삭제합니다.")
+    @Operation(summary = "Intro 활동사진 삭제", description = "해당 사진의 DB 레코드와 MinIO 객체를 함께 삭제합니다.")
     @ApiResponses({
             @ApiResponse(responseCode = "204", description = "삭제 성공"),
             @ApiResponse(responseCode = "404", description = "존재하지 않는 photoId", content = @Content)
@@ -59,7 +59,7 @@ public interface AdminIntroPhotoControllerDocs {
     );
 
     @Operation(
-            summary = "[ADMIN] Intro 활동사진 목록 조회",
+            summary = "Intro 활동사진 목록 조회",
             description = "sortOrder 오름차순, id 오름차순으로 정렬된 목록을 반환합니다."
     )
     @ApiResponses({
