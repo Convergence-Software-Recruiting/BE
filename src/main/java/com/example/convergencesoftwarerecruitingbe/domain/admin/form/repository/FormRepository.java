@@ -12,6 +12,12 @@ public interface FormRepository extends JpaRepository<Form, Long> {
 
     Optional<Form> findFirstByActiveTrue();
 
+    Optional<Form> findFirstByResultOpenTrueOrderByIdDesc();
+
+    @Modifying(flushAutomatically = true)
+    @Query("update Form f set f.resultOpen=false where f.resultOpen=true and f.id<>:id")
+    int closeResultOpenExcept(@Param("id") Long id);
+
     @Modifying(clearAutomatically = true, flushAutomatically = true)
     @Query("update Form f set f.active=false where f.active=true")
     int deactivateAllActive();

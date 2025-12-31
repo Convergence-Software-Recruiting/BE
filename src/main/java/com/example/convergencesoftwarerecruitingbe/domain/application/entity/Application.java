@@ -33,7 +33,8 @@ import java.time.LocalDateTime;
 @Table(
         name = "applications",
         uniqueConstraints = {
-                @UniqueConstraint(columnNames = {"form_id", "student_no"})
+                @UniqueConstraint(columnNames = {"form_id", "student_no"}),
+                @UniqueConstraint(columnNames = {"form_id", "result_code"})
         }
 )
 public class Application {
@@ -62,6 +63,9 @@ public class Application {
 
     @Column(nullable = false)
     private String phone;
+
+    @Column(name = "result_code", nullable = false, length = 4, updatable = false)
+    private String resultCode;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)

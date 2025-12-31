@@ -10,4 +10,7 @@ public class ApplicationSubmitResponse {
 
     @Schema(description = "저장된 지원서 ID", example = "123")
     private final Long applicationId;
+
+    @Schema(description = "지원 결과 조회 코드", example = "A7K9")
+    private final String resultCode;
 }

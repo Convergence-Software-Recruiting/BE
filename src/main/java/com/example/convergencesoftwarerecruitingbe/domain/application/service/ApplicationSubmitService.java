@@ -31,6 +31,7 @@ public class ApplicationSubmitService {
     private final QuestionRepository questionRepository;
     private final ApplicationRepository applicationRepository;
     private final ApplicationAnswerRepository applicationAnswerRepository;
+    private final ApplicationResultCodeGenerator applicationResultCodeGenerator;
 
     @Transactional
     public ApplicationSubmitResponse submitToActiveForm(ApplicationSubmitRequest request) {
@@ -80,6 +81,7 @@ public class ApplicationSubmitService {
                 .major(request.getMajor())
                 .grade(request.getGrade())
                 .phone(request.getPhone())
+                .resultCode(applicationResultCodeGenerator.generate(form.getId()))
                 .build();
         applicationRepository.save(application);
 
@@ -92,6 +94,6 @@ public class ApplicationSubmitService {
                 .toList();
         applicationAnswerRepository.saveAll(answers);
 
-        return new ApplicationSubmitResponse(application.getId());
+        return new ApplicationSubmitResponse(application.getId(), application.getResultCode());
     }
 }

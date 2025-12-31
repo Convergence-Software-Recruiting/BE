@@ -46,6 +46,10 @@ public class Form {
     private boolean active = false;
 
     @Builder.Default
+    @Column(name = "result_open", nullable = false)
+    private boolean resultOpen = false;
+
+    @Builder.Default
     @OneToMany(mappedBy = "form", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Question> questions = new ArrayList<>();
 
@@ -62,6 +66,7 @@ public class Form {
                 .title(title)
                 .description(description)
                 .active(false)
+                .resultOpen(false)
                 .build();
     }
 
@@ -71,5 +76,9 @@ public class Form {
 
     public void deactivate() {
         this.active = false;
+    }
+
+    public void updateResultOpen(boolean resultOpen) {
+        this.resultOpen = resultOpen;
     }
 }

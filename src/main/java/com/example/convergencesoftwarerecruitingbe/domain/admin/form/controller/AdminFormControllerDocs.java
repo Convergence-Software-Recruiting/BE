@@ -1,6 +1,7 @@
 package com.example.convergencesoftwarerecruitingbe.domain.admin.form.controller;
 
 import com.example.convergencesoftwarerecruitingbe.domain.admin.form.dto.request.AdminFormCreateRequest;
+import com.example.convergencesoftwarerecruitingbe.domain.admin.form.dto.request.AdminFormResultOpenRequest;
 import com.example.convergencesoftwarerecruitingbe.domain.admin.form.dto.response.AdminFormListItemResponse;
 import com.example.convergencesoftwarerecruitingbe.domain.admin.form.dto.response.AdminFormResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -51,4 +52,15 @@ public interface AdminFormControllerDocs {
     @Operation(summary = "모집 종료(모든 폼 비활성화)")
     @ApiResponse(responseCode = "204", description = "비활성화 성공")
     ResponseEntity<Void> deactivate();
+
+    @Operation(summary = "결과 공개 여부 변경")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "변경 성공"),
+            @ApiResponse(responseCode = "404", description = "폼을 찾을 수 없음", content = @Content)
+    })
+    ResponseEntity<com.example.convergencesoftwarerecruitingbe.domain.admin.form.dto.response.AdminFormResultOpenResponse> updateResultOpen(
+            @PathVariable Long id,
+            @Valid
+            @RequestBody @Schema(implementation = AdminFormResultOpenRequest.class, example = "{\"resultOpen\":true}") AdminFormResultOpenRequest request
+    );
 }

@@ -1,8 +1,10 @@
 package com.example.convergencesoftwarerecruitingbe.domain.admin.form.controller;
 
 import com.example.convergencesoftwarerecruitingbe.domain.admin.form.dto.request.AdminFormCreateRequest;
+import com.example.convergencesoftwarerecruitingbe.domain.admin.form.dto.request.AdminFormResultOpenRequest;
 import com.example.convergencesoftwarerecruitingbe.domain.admin.form.dto.response.AdminFormListItemResponse;
 import com.example.convergencesoftwarerecruitingbe.domain.admin.form.dto.response.AdminFormResponse;
+import com.example.convergencesoftwarerecruitingbe.domain.admin.form.dto.response.AdminFormResultOpenResponse;
 import com.example.convergencesoftwarerecruitingbe.domain.admin.form.service.AdminFormService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -66,5 +68,15 @@ public class AdminFormController implements AdminFormControllerDocs {
     public ResponseEntity<Void> deactivate() {
         adminFormService.deactivate();
         return ResponseEntity.noContent().build();
+    }
+
+    @Override
+    @PatchMapping("/{id}/result-open")
+    public ResponseEntity<AdminFormResultOpenResponse> updateResultOpen(
+            @PathVariable Long id,
+            @Valid @RequestBody AdminFormResultOpenRequest request
+    ) {
+        AdminFormResultOpenResponse response = adminFormService.updateResultOpen(id, request.getResultOpen());
+        return ResponseEntity.ok(response);
     }
 }

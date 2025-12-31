@@ -16,6 +16,7 @@ public class AdminFormResponse {
     private final String title;
     private final String description;
     private final boolean active;
+    private final boolean resultOpen;
     private final LocalDateTime createdAt;
     private final List<QuestionResponse> questions;
 
@@ -30,6 +31,7 @@ public class AdminFormResponse {
                 .title(form.getTitle())
                 .description(form.getDescription())
                 .active(form.isActive())
+                .resultOpen(form.isResultOpen())
                 .createdAt(form.getCreatedAt())
                 .questions(questionResponses)
                 .build();

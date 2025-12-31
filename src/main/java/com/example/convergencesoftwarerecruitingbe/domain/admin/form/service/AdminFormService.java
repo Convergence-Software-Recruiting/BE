@@ -3,6 +3,7 @@ package com.example.convergencesoftwarerecruitingbe.domain.admin.form.service;
 import com.example.convergencesoftwarerecruitingbe.domain.admin.form.dto.request.AdminFormCreateRequest;
 import com.example.convergencesoftwarerecruitingbe.domain.admin.form.dto.response.AdminFormListItemResponse;
 import com.example.convergencesoftwarerecruitingbe.domain.admin.form.dto.response.AdminFormResponse;
+import com.example.convergencesoftwarerecruitingbe.domain.admin.form.dto.response.AdminFormResultOpenResponse;
 import com.example.convergencesoftwarerecruitingbe.domain.admin.form.entity.Form;
 import com.example.convergencesoftwarerecruitingbe.domain.admin.form.entity.Question;
 import com.example.convergencesoftwarerecruitingbe.domain.admin.form.repository.FormRepository;
@@ -57,5 +58,20 @@ public class AdminFormService {
     @Transactional
     public void deactivate() {
         formRepository.deactivateAllActive();
+    }
+
+    @Transactional
+    public AdminFormResultOpenResponse updateResultOpen(Long formId, boolean resultOpen) {
+        Form form = formRepository.findById(formId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Form not found"));
+        if (resultOpen && !form.isActive()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "활성화된 폼만 결과 공개할 수 있습니다");
+        }
+        if (resultOpen) {
+            formRepository.closeResultOpenExcept(form.getId());
+        }
+        form.updateResultOpen(resultOpen);
+        formRepository.flush();
+        return AdminFormResultOpenResponse.from(form);
     }
 }
