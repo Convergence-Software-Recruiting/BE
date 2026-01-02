@@ -27,8 +27,8 @@ public interface IntroControllerDocs {
   "works": { "title": "하는 일", "content": "- 정기 회의 운영\\n- 행사 기획" },
   "benefits": { "title": "함께하면 좋은 점", "content": "1. 협업 경험\\n2. 네트워킹" },
   "photos": [
-    { "id": 1, "objectKey": "intro/photos/uuid1.jpg", "publicUrl": "https://s3.bluerack.org/test/intro/photos/uuid1.jpg", "sortOrder": 0, "createdAt": "2025-01-01T10:00:00" },
-    { "id": 2, "objectKey": "intro/photos/uuid2.jpg", "publicUrl": "https://s3.bluerack.org/test/intro/photos/uuid2.jpg", "sortOrder": 1, "createdAt": "2025-01-02T10:00:00" }
+    { "id": 1, "publicUrl": "https://s3.bluerack.org/test/intro/photos/uuid1.jpg", "sortOrder": 0, "createdAt": "2025-01-01T10:00:00" },
+    { "id": 2, "publicUrl": "https://s3.bluerack.org/test/intro/photos/uuid2.jpg", "sortOrder": 1, "createdAt": "2025-01-02T10:00:00" }
   ],
   "updatedAt": "2025-12-30T12:34:56"
 }

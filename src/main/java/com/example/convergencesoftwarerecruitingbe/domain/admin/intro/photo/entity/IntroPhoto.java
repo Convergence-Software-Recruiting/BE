@@ -51,4 +51,8 @@ public class IntroPhoto {
                 .sortOrder(sortOrder == null ? 0 : sortOrder)
                 .build();
     }
+
+    public void updateSortOrder(int sortOrder) {
+        this.sortOrder = sortOrder;
+    }
 }

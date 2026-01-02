@@ -4,6 +4,7 @@ import com.example.convergencesoftwarerecruitingbe.domain.admin.intro.photo.dto.
 import com.example.convergencesoftwarerecruitingbe.domain.admin.intro.photo.dto.response.PhotoResponse;
 import com.example.convergencesoftwarerecruitingbe.domain.admin.intro.photo.dto.request.PresignRequest;
 import com.example.convergencesoftwarerecruitingbe.domain.admin.intro.photo.dto.response.PresignResponse;
+import com.example.convergencesoftwarerecruitingbe.domain.admin.intro.photo.dto.request.SyncPhotosRequest;
 import com.example.convergencesoftwarerecruitingbe.domain.admin.intro.photo.service.IntroPhotoPresignService;
 import com.example.convergencesoftwarerecruitingbe.domain.admin.intro.photo.service.IntroPhotoService;
 import jakarta.validation.Valid;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -41,6 +43,7 @@ public class AdminIntroPhotoController implements AdminIntroPhotoControllerDocs 
 
     @Override
     @PostMapping
+    @Deprecated
     public ResponseEntity<PhotoResponse> create(
             @Valid @RequestBody CreatePhotoRequest request
     ) {
@@ -55,6 +58,15 @@ public class AdminIntroPhotoController implements AdminIntroPhotoControllerDocs 
     ) {
         introPhotoService.delete(photoId);
         return ResponseEntity.noContent().build();
+    }
+
+    @Override
+    @PutMapping
+    public ResponseEntity<List<PhotoResponse>> sync(
+            @Valid @RequestBody SyncPhotosRequest request
+    ) {
+        List<PhotoResponse> responses = introPhotoService.sync(request);
+        return ResponseEntity.ok(responses);
     }
 
     @Override

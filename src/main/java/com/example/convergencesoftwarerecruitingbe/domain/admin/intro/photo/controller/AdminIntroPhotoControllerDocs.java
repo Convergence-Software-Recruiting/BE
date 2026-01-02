@@ -2,6 +2,7 @@ package com.example.convergencesoftwarerecruitingbe.domain.admin.intro.photo.con
 
 import com.example.convergencesoftwarerecruitingbe.domain.admin.intro.photo.dto.request.CreatePhotoRequest;
 import com.example.convergencesoftwarerecruitingbe.domain.admin.intro.photo.dto.request.PresignRequest;
+import com.example.convergencesoftwarerecruitingbe.domain.admin.intro.photo.dto.request.SyncPhotosRequest;
 import com.example.convergencesoftwarerecruitingbe.domain.admin.intro.photo.dto.response.PhotoResponse;
 import com.example.convergencesoftwarerecruitingbe.domain.admin.intro.photo.dto.response.PresignResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -37,8 +38,10 @@ public interface AdminIntroPhotoControllerDocs {
     );
 
     @Operation(
-        summary = "Intro 활동사진 등록 (메타데이터 저장)",
-        description = "Presign+PUT 업로드 완료 후 objectKey와 sortOrder를 저장합니다. publicUrl은 서버가 계산하며 201을 반환합니다."
+            summary = "Intro 활동사진 등록 (단건, deprecated)",
+            description = "Presign+PUT 업로드 완료 후 objectKey와 sortOrder를 저장합니다. 수정 완료 일괄 저장(put) 사용을 권장합니다.",
+            deprecated = true,
+            hidden = true
     )
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "등록 성공", content = @Content(schema = @Schema(implementation = PhotoResponse.class))),
@@ -56,6 +59,19 @@ public interface AdminIntroPhotoControllerDocs {
     })
     ResponseEntity<Void> delete(
             @PathVariable Long photoId
+    );
+
+    @Operation(
+            summary = "Intro 활동사진 일괄 반영 (수정 완료용)",
+            description = "프론트가 최종 확정된 사진 배열(순서가 sortOrder)을 보내면 서버가 추가/삭제/정렬을 일괄 반영합니다."
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "동기화 성공", content = @Content(array = @ArraySchema(schema = @Schema(implementation = PhotoResponse.class)))),
+            @ApiResponse(responseCode = "400", description = "유효하지 않은 objectKey/publicUrl", content = @Content)
+    })
+    ResponseEntity<List<PhotoResponse>> sync(
+            @Valid
+            @RequestBody @Schema(implementation = SyncPhotosRequest.class) SyncPhotosRequest request
     );
 
     @Operation(
