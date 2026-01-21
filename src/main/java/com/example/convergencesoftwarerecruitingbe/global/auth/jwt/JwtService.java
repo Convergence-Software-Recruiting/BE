@@ -34,8 +34,12 @@ public class JwtService {
     }
 
     public String generateToken(Admin admin) {
+        return generateAccessToken(admin);
+    }
+
+    public String generateAccessToken(Admin admin) {
         Instant now = Instant.now();
-        Instant expiry = now.plusSeconds(properties.getExpirationSeconds());
+        Instant expiry = now.plusSeconds(getAccessExpirationSeconds());
 
         return Jwts.builder()
                 .subject(String.valueOf(admin.getId()))
@@ -43,16 +47,28 @@ public class JwtService {
                 .expiration(Date.from(expiry))
                 .claim(CLAIM_USERNAME, admin.getUsername())
                 .claim(CLAIM_ROLE, admin.getRole().name())
+                .claim(JwtConstants.TOKEN_TYPE_CLAIM, JwtConstants.TOKEN_TYPE_ACCESS)
+                .signWith(secretKey, Jwts.SIG.HS256)
+                .compact();
+    }
+
+    public String generateRefreshToken(Admin admin) {
+        Instant now = Instant.now();
+        Instant expiry = now.plusSeconds(getRefreshExpirationSeconds());
+
+        return Jwts.builder()
+                .subject(String.valueOf(admin.getId()))
+                .issuedAt(Date.from(now))
+                .expiration(Date.from(expiry))
+                .claim(CLAIM_USERNAME, admin.getUsername())
+                .claim(CLAIM_ROLE, admin.getRole().name())
+                .claim(JwtConstants.TOKEN_TYPE_CLAIM, JwtConstants.TOKEN_TYPE_REFRESH)
                 .signWith(secretKey, Jwts.SIG.HS256)
                 .compact();
     }
 
     public AdminPrincipal parseToken(String token) throws JwtException {
-        Claims claims = Jwts.parser()
-                .verifyWith(secretKey)
-                .build()
-                .parseSignedClaims(token)
-                .getPayload();
+        Claims claims = parseClaims(token);
 
         Long adminId = Long.valueOf(claims.getSubject());
         String username = claims.get(CLAIM_USERNAME, String.class);
@@ -62,7 +78,31 @@ public class JwtService {
         return new AdminPrincipal(adminId, username, role);
     }
 
+    public Claims parseClaims(String token) throws JwtException {
+        return Jwts.parser()
+                .verifyWith(secretKey)
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
+    }
+
     public long getExpirationSeconds() {
+        return getAccessExpirationSeconds();
+    }
+
+    public long getAccessExpirationSeconds() {
+        Long accessExpirationSeconds = properties.getAccessExpirationSeconds();
+        if (accessExpirationSeconds != null && accessExpirationSeconds > 0) {
+            return accessExpirationSeconds;
+        }
+        return properties.getExpirationSeconds();
+    }
+
+    public long getRefreshExpirationSeconds() {
+        Long refreshExpirationSeconds = properties.getRefreshExpirationSeconds();
+        if (refreshExpirationSeconds != null && refreshExpirationSeconds > 0) {
+            return refreshExpirationSeconds;
+        }
         return properties.getExpirationSeconds();
     }
 }

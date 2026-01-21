@@ -36,6 +36,7 @@ public class SecurityConfig {
                                 "/swagger-ui.html",
                                 "/api/admin/login",
                                 "/api/admin/logout",
+                                "/api/admin/refresh",
                                 "/api/forms/active",
                                 "/api/forms/active/apply"
                         ).permitAll()

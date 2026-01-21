@@ -20,4 +20,8 @@ public class JwtProperties {
 
     @Min(1)
     private long expirationSeconds;
+
+    private Long accessExpirationSeconds;
+
+    private Long refreshExpirationSeconds;
 }
