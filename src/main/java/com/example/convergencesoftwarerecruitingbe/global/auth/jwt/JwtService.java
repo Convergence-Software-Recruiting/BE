@@ -1,7 +1,7 @@
 package com.example.convergencesoftwarerecruitingbe.global.auth.jwt;
 
-import com.example.convergencesoftwarerecruitingbe.domain.login.user.Admin;
-import com.example.convergencesoftwarerecruitingbe.domain.login.user.AdminRole;
+import com.example.convergencesoftwarerecruitingbe.domain.login.entity.Admin;
+import com.example.convergencesoftwarerecruitingbe.domain.login.entity.AdminRole;
 import com.example.convergencesoftwarerecruitingbe.global.auth.principal.AdminPrincipal;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

@@ -1,7 +1,7 @@
 package com.example.convergencesoftwarerecruitingbe.domain.login.token.service;
 
-import com.example.convergencesoftwarerecruitingbe.domain.login.user.Admin;
-import com.example.convergencesoftwarerecruitingbe.domain.login.user.AdminRole;
+import com.example.convergencesoftwarerecruitingbe.domain.login.entity.Admin;
+import com.example.convergencesoftwarerecruitingbe.domain.login.entity.AdminRole;
 import com.example.convergencesoftwarerecruitingbe.domain.login.token.dto.response.TokenRefreshResponse;
 import com.example.convergencesoftwarerecruitingbe.domain.login.token.entity.AdminRefreshToken;
 import com.example.convergencesoftwarerecruitingbe.domain.login.token.repository.AdminRefreshTokenRepository;

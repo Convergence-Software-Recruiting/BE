@@ -1,8 +1,8 @@
 package com.example.convergencesoftwarerecruitingbe.domain.account.controller;
 
-import com.example.convergencesoftwarerecruitingbe.domain.account.request.ChangePasswordRequest;
-import com.example.convergencesoftwarerecruitingbe.domain.account.request.ChangeUsernameRequest;
-import com.example.convergencesoftwarerecruitingbe.domain.account.request.VerifyPasswordRequest;
+import com.example.convergencesoftwarerecruitingbe.domain.account.dto.request.ChangePasswordRequest;
+import com.example.convergencesoftwarerecruitingbe.domain.account.dto.request.ChangeUsernameRequest;
+import com.example.convergencesoftwarerecruitingbe.domain.account.dto.request.VerifyPasswordRequest;
 import com.example.convergencesoftwarerecruitingbe.domain.account.service.AdminAccountService;
 import com.example.convergencesoftwarerecruitingbe.global.auth.cookie.CookieProperties;
 import com.example.convergencesoftwarerecruitingbe.global.auth.jwt.JwtConstants;
