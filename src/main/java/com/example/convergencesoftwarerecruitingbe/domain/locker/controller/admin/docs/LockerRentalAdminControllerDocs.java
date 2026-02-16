@@ -1,0 +1,31 @@
+package com.example.convergencesoftwarerecruitingbe.domain.locker.controller.admin.docs;
+
+import com.example.convergencesoftwarerecruitingbe.domain.locker.dto.response.RentalResponse;
+import com.example.convergencesoftwarerecruitingbe.domain.locker.enums.ReturnReason;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import java.util.List;
+import java.util.Map;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
+
+@Tag(name = "Locker Rental Admin", description = "대여 관리 API")
+public interface LockerRentalAdminControllerDocs {
+
+    @Operation(summary = "활성 대여 목록", description = "반납되지 않은 대여 목록을 조회합니다")
+    ResponseEntity<List<RentalResponse>> getActiveRentals();
+
+    @Operation(summary = "만료 임박 대여 조회", description = "7일 이내 만료되는 대여 목록을 조회합니다")
+    ResponseEntity<List<RentalResponse>> getExpiringRentals();
+
+    @Operation(summary = "수동 반납 처리", description = "대여를 수동으로 반납 처리합니다")
+    ResponseEntity<RentalResponse> returnRental(
+            @Parameter(description = "대여 ID") @PathVariable Long id,
+            @Parameter(description = "반납 사유") @RequestParam ReturnReason reason
+    );
+
+    @Operation(summary = "학기 종료 처리", description = "모든 활성 대여를 자동 반납하고 사물함을 CLOSED 처리합니다")
+    ResponseEntity<Map<String, Integer>> closeSemester();
+}
