@@ -2,6 +2,24 @@ spring:
   profiles:
     active: local
 
+  # Gmail SMTP 설정
+  # MAIL_USERNAME: Gmail 주소
+  # MAIL_PASSWORD: Gmail 앱 비밀번호 (2단계 인증 필요)
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
+
   jpa:
     open-in-view: false
     properties:
