@@ -14,7 +14,7 @@ import java.util.List;
 @Repository("lockerApplicationRepository")
 public interface ApplicationRepository extends JpaRepository<Application, Long> {
 
-    @Query("SELECT CASE WHEN COUNT(a) > 0 THEN true ELSE false END FROM Application a " +
+    @Query("SELECT CASE WHEN COUNT(a) > 0 THEN true ELSE false END FROM LockerApplication a " +
             "WHERE a.studentIdHash = :hash AND a.status IN :statuses")
     boolean existsByStudentIdHashAndStatusIn(
             @Param("hash") String studentIdHash,
@@ -25,7 +25,7 @@ public interface ApplicationRepository extends JpaRepository<Application, Long> 
 
     boolean existsByEmailAndStatusIn(String email, List<ApplicationStatus> statuses);
 
-    @Query("SELECT a FROM Application a WHERE :status IS NULL OR a.status = :status ORDER BY a.createdAt DESC")
+    @Query("SELECT a FROM LockerApplication a WHERE :status IS NULL OR a.status = :status ORDER BY a.createdAt DESC")
     Page<Application> findAllByStatusFilter(@Param("status") ApplicationStatus status, Pageable pageable);
 
     long countByStatus(ApplicationStatus status);

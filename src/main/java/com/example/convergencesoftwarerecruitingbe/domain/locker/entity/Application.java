@@ -25,7 +25,7 @@ import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
 
 @Getter
-@Entity
+@Entity(name = "LockerApplication")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "locker_applications")
 public class Application extends BaseTimeEntity {
