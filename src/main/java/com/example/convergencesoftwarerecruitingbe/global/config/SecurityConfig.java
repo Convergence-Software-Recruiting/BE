@@ -41,6 +41,9 @@ public class SecurityConfig {
                                 "/api/forms/active/apply"
                         ).permitAll()
 
+                        // Locker domain
+                        .requestMatchers("/api/locker/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/api/locker/**").permitAll()
                         .requestMatchers("/api/admin/**").authenticated()
                         .anyRequest().permitAll()
                 )
