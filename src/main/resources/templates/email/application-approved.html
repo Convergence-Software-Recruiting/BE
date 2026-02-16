@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>사물함 신청 승인</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', sans-serif;
+            background-color: #f5f7fa;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+            padding: 40px 30px;
+            text-align: center;
+            color: white;
+        }
+        .logo {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            background-color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 42px;
+        }
+        .header h1 {
+            font-size: 24px;
+            font-weight: 600;
+            margin: 0;
+        }
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-top: 8px;
+        }
+        .content {
+            padding: 40px 30px;
+        }
+        .greeting {
+            font-size: 16px;
+            color: #1f2937;
+            margin-bottom: 20px;
+        }
+        .greeting strong {
+            color: #059669;
+            font-weight: 600;
+        }
+        .message {
+            font-size: 15px;
+            color: #4b5563;
+            margin-bottom: 30px;
+            line-height: 1.8;
+        }
+        .success-badge {
+            background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            margin: 24px 0;
+        }
+        .success-badge .icon {
+            font-size: 48px;
+            margin-bottom: 12px;
+        }
+        .success-badge h2 {
+            font-size: 20px;
+            color: #065f46;
+            margin-bottom: 8px;
+        }
+        .success-badge p {
+            font-size: 14px;
+            color: #047857;
+        }
+        .info-box {
+            background-color: #eff6ff;
+            border-left: 4px solid #3b82f6;
+            border-radius: 8px;
+            padding: 24px;
+            margin: 24px 0;
+        }
+        .info-box h3 {
+            font-size: 16px;
+            color: #1e3a8a;
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+        .info-item {
+            display: flex;
+            padding: 10px 0;
+            border-bottom: 1px solid #dbeafe;
+        }
+        .info-item:last-child {
+            border-bottom: none;
+        }
+        .info-label {
+            flex: 0 0 120px;
+            font-size: 14px;
+            color: #6b7280;
+            font-weight: 500;
+        }
+        .info-value {
+            flex: 1;
+            font-size: 14px;
+            color: #1f2937;
+            font-weight: 600;
+        }
+        .deposit-box {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-radius: 8px;
+            padding: 24px;
+            margin: 24px 0;
+        }
+        .deposit-box h3 {
+            font-size: 16px;
+            color: #92400e;
+            margin-bottom: 16px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+        }
+        .deposit-box h3::before {
+            content: '💰';
+            margin-right: 8px;
+            font-size: 20px;
+        }
+        .deposit-item {
+            font-size: 14px;
+            color: #78350f;
+            padding: 8px 0;
+        }
+        .deposit-item strong {
+            color: #92400e;
+            font-weight: 600;
+        }
+        .warning-box {
+            background-color: #fef2f2;
+            border-left: 4px solid #ef4444;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 24px 0;
+        }
+        .warning-box p {
+            font-size: 13px;
+            color: #991b1b;
+            line-height: 1.6;
+        }
+        .footer {
+            background-color: #f9fafb;
+            padding: 30px;
+            text-align: center;
+            border-top: 1px solid #e5e7eb;
+        }
+        .footer p {
+            font-size: 13px;
+            color: #6b7280;
+            margin: 8px 0;
+        }
+        .footer a {
+            color: #3b82f6;
+            text-decoration: none;
+        }
+        .divider {
+            height: 1px;
+            background: linear-gradient(to right, transparent, #e5e7eb, transparent);
+            margin: 24px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="header">
+            <div class="logo">
+                ✅
+            </div>
+            <h1>사물함 신청 승인</h1>
+            <p>축하합니다! 신청이 승인되었습니다</p>
+        </div>
+
+        <div class="content">
+            <div class="greeting">
+                안녕하세요, <strong th:text="${applicantName}">홍길동</strong>님 🎉
+            </div>
+
+            <div class="success-badge">
+                <div class="icon">🎊</div>
+                <h2>신청이 승인되었습니다!</h2>
+                <p>보증금 입금 후 사물함 이용이 가능합니다</p>
+            </div>
+
+            <div class="info-box">
+                <h3>📋 대여 정보</h3>
+                <div class="info-item">
+                    <div class="info-label">사물함 번호</div>
+                    <div class="info-value"><span th:text="${lockerNumber}">2</span>번</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">대여 시작일</div>
+                    <div class="info-value" th:text="${rentalStartDate}">2026-02-16</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">반납 기한</div>
+                    <div class="info-value" th:text="${rentalEndDate}">2026-06-27</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">승인 일시</div>
+                    <div class="info-value" th:text="${approvedAt}">2026-02-16 14:30</div>
+                </div>
+            </div>
+
+            <div class="deposit-box">
+                <h3>보증금 입금 안내</h3>
+                <div class="deposit-item">
+                    입금 계좌: <strong th:text="${depositAccount}">123-456-789</strong>
+                </div>
+                <div class="deposit-item">
+                    입금 금액: <strong><span th:text="${depositAmount}">50,000</span>원</strong>
+                </div>
+                <div class="deposit-item">
+                    입금 기한: <strong>승인일로부터 <span th:text="${depositDueDays}">3</span>일 이내</strong>
+                </div>
+                <div class="deposit-item">
+                    입금자명: <strong><span th:text="${applicantName}">홍길동</span></strong>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <p>
+                    ⚠️ <strong>주의사항</strong><br>
+                    • 기한 내 입금하지 않으면 승인이 자동 취소됩니다<br>
+                    • 입금 완료 후 사물함 번호와 비밀번호가 문자로 발송됩니다<br>
+                    • 반납 기한을 반드시 지켜주세요 (연체 시 불이익 있음)
+                </p>
+            </div>
+
+            <div class="divider"></div>
+
+            <p style="font-size: 14px; color: #6b7280; text-align: center;">
+                사물함 이용에 궁금한 점이 있으시면 언제든지 문의해주세요.
+            </p>
+        </div>
+
+        <div class="footer">
+            <p><strong>학생회 사물함 관리팀</strong></p>
+            <p>📧 Email: <a href="mailto:student@example.com">student@example.com</a></p>
+            <p>📞 Tel: 02-1234-5678</p>
+            <p style="margin-top: 20px; font-size: 12px; color: #9ca3af;">
+                본 메일은 발신 전용입니다. 회신하지 마세요.
+            </p>
+        </div>
+    </div>
+</body>
+</html>
