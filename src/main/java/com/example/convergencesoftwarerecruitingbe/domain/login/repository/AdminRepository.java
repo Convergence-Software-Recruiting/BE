@@ -1,6 +1,6 @@
 package com.example.convergencesoftwarerecruitingbe.domain.login.repository;
 
-import com.example.convergencesoftwarerecruitingbe.domain.login.user.Admin;
+import com.example.convergencesoftwarerecruitingbe.domain.login.entity.Admin;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

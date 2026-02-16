@@ -1,4 +1,4 @@
-package com.example.convergencesoftwarerecruitingbe.domain.account.request;
+package com.example.convergencesoftwarerecruitingbe.domain.account.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;

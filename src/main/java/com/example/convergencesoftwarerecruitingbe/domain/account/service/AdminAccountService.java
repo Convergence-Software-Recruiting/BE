@@ -1,7 +1,7 @@
 package com.example.convergencesoftwarerecruitingbe.domain.account.service;
 
 import com.example.convergencesoftwarerecruitingbe.domain.login.repository.AdminRepository;
-import com.example.convergencesoftwarerecruitingbe.domain.login.user.Admin;
+import com.example.convergencesoftwarerecruitingbe.domain.login.entity.Admin;
 import com.example.convergencesoftwarerecruitingbe.global.auth.jwt.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

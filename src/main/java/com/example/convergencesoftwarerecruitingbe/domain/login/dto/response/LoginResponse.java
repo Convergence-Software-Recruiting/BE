@@ -1,6 +1,6 @@
 package com.example.convergencesoftwarerecruitingbe.domain.login.dto.response;
 
-import com.example.convergencesoftwarerecruitingbe.domain.login.user.AdminRole;
+import com.example.convergencesoftwarerecruitingbe.domain.login.entity.AdminRole;
 import com.example.convergencesoftwarerecruitingbe.global.auth.principal.AdminPrincipal;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

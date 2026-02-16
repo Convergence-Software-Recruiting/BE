@@ -1,4 +1,4 @@
-package com.example.convergencesoftwarerecruitingbe.domain.login.user;
+package com.example.convergencesoftwarerecruitingbe.domain.login.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

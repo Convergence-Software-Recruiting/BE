@@ -1,8 +1,8 @@
 package com.example.convergencesoftwarerecruitingbe.domain.login.service;
 
 import com.example.convergencesoftwarerecruitingbe.domain.login.repository.AdminRepository;
-import com.example.convergencesoftwarerecruitingbe.domain.login.user.Admin;
-import com.example.convergencesoftwarerecruitingbe.domain.login.user.AdminRole;
+import com.example.convergencesoftwarerecruitingbe.domain.login.entity.Admin;
+import com.example.convergencesoftwarerecruitingbe.domain.login.entity.AdminRole;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.event.ApplicationReadyEvent;

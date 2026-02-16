@@ -1,6 +1,6 @@
 package com.example.convergencesoftwarerecruitingbe.global.auth.principal;
 
-import com.example.convergencesoftwarerecruitingbe.domain.login.user.AdminRole;
+import com.example.convergencesoftwarerecruitingbe.domain.login.entity.AdminRole;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
