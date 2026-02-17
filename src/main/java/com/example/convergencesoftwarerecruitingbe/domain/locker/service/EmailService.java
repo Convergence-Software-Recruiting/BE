@@ -26,10 +26,12 @@ import org.thymeleaf.context.Context;
 @RequiredArgsConstructor
 public class EmailService {
 
-    private static final String ADMIN_EMAIL = "admin@example.com";
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    private static final String DEFAULT_LOCKER_LOCATION = "종합관 3층 인공지능소프트웨어융합대학교학팀 앞";
+    private static final String DEFAULT_LOCKER_PASSWORD = "1234";
 
+    private final AdminMailProperties adminMailProperties;
     private final JavaMailSender mailSender;
     private final TemplateEngine templateEngine;
     private final ApplicationRepository applicationRepository;
@@ -41,6 +43,7 @@ public class EmailService {
     public void sendApplicationConfirmation(Long applicationId, String toEmail) {
         Application app = applicationRepository.findById(applicationId)
                 .orElseThrow(() -> new IllegalArgumentException("신청서를 찾을 수 없습니다"));
+        SystemConfigResponse config = systemConfigService.getCurrentConfig();
 
         EmailLog emailLog = EmailLog.create(applicationId, toEmail, EmailType.APPLIED_USER);
 
@@ -52,9 +55,20 @@ public class EmailService {
             context.setVariable("grade", formatGrade(app.getGrade().name()));
             context.setVariable("major", formatMajor(app.getMajor().name()));
             context.setVariable("phone", app.getPhone());
+            context.setVariable("depositAccount", defaultValue(config.getDepositAccount(), "미정"));
+            context.setVariable("depositAmount", formatAmount(config.getDepositAmount()));
+            context.setVariable("depositDueDays", config.getDepositDueDays() == null ? 3 : config.getDepositDueDays());
 
             String htmlContent = templateEngine.process("email/application-confirmation", context);
-            String messageId = sendEmail(toEmail, "[사물함] 신청이 접수되었습니다", htmlContent);
+            String plainText = buildApplicationConfirmationPlainText(
+                    app.getApplicantName(),
+                    app.getLocker().getNumber(),
+                    app.getCreatedAt().format(DATE_TIME_FORMATTER),
+                    formatGrade(app.getGrade().name()),
+                    formatMajor(app.getMajor().name()),
+                    app.getPhone()
+            );
+            String messageId = sendEmail(toEmail, "[사물함] 신청이 접수되었습니다", plainText, htmlContent);
             emailLog.markSent(messageId);
         } catch (Exception e) {
             log.error("메일 발송 실패: {}", e.getMessage(), e);
@@ -69,7 +83,7 @@ public class EmailService {
         Application app = applicationRepository.findById(applicationId)
                 .orElseThrow(() -> new IllegalArgumentException("신청서를 찾을 수 없습니다"));
 
-        EmailLog emailLog = EmailLog.create(applicationId, ADMIN_EMAIL, EmailType.APPLIED_ADMIN);
+        EmailLog emailLog = EmailLog.create(applicationId, adminMailProperties.getEmail(), EmailType.APPLIED_ADMIN);
 
         try {
             Context context = new Context();
@@ -83,7 +97,17 @@ public class EmailService {
             context.setVariable("appliedAt", app.getCreatedAt().format(DATE_TIME_FORMATTER));
 
             String htmlContent = templateEngine.process("email/admin-notification", context);
-            String messageId = sendEmail(ADMIN_EMAIL, "[관리자] 신규 사물함 신청", htmlContent);
+            String plainText = buildAdminNotificationPlainText(
+                    app.getApplicantName(),
+                    app.getStudentId(),
+                    formatGrade(app.getGrade().name()),
+                    formatMajor(app.getMajor().name()),
+                    app.getPhone(),
+                    app.getEmail(),
+                    app.getLocker().getNumber(),
+                    app.getCreatedAt().format(DATE_TIME_FORMATTER)
+            );
+            String messageId = sendEmail(adminMailProperties.getEmail(), "[관리자] 신규 사물함 신청", plainText, htmlContent);
             emailLog.markSent(messageId);
         } catch (Exception e) {
             log.error("관리자 알림 메일 발송 실패: {}", e.getMessage(), e);
@@ -115,9 +139,21 @@ public class EmailService {
             context.setVariable("depositAccount", defaultValue(config.getDepositAccount(), "미정"));
             context.setVariable("depositAmount", formatAmount(config.getDepositAmount()));
             context.setVariable("depositDueDays", config.getDepositDueDays() == null ? 3 : config.getDepositDueDays());
+            context.setVariable("lockerLocation", DEFAULT_LOCKER_LOCATION);
+            context.setVariable("lockerPassword", DEFAULT_LOCKER_PASSWORD);
 
             String htmlContent = templateEngine.process("email/application-approved", context);
-            String messageId = sendEmail(toEmail, "[사물함] 신청이 승인되었습니다", htmlContent);
+            String plainText = buildApprovalNotificationPlainText(
+                    app.getApplicantName(),
+                    app.getLocker().getNumber(),
+                    rental.getRentalStartDate().format(DATE_FORMATTER),
+                    rental.getRentalEndDate().format(DATE_FORMATTER),
+                    rental.getApprovedAt().format(DATE_TIME_FORMATTER),
+                    defaultValue(config.getDepositAccount(), "미정"),
+                    formatAmount(config.getDepositAmount()),
+                    config.getDepositDueDays() == null ? 3 : config.getDepositDueDays()
+            );
+            String messageId = sendEmail(toEmail, "[사물함] 신청이 승인되었습니다", plainText, htmlContent);
             emailLog.markSent(messageId);
         } catch (Exception e) {
             log.error("승인 메일 발송 실패: {}", e.getMessage(), e);
@@ -143,7 +179,14 @@ public class EmailService {
             context.setVariable("decisionReason", defaultValue(app.getDecisionReason(), "사유 미기재"));
 
             String htmlContent = templateEngine.process("email/application-rejected", context);
-            String messageId = sendEmail(toEmail, "[사물함] 신청 결과 안내", htmlContent);
+            String plainText = buildRejectionNotificationPlainText(
+                    app.getApplicantName(),
+                    app.getLocker().getNumber(),
+                    app.getCreatedAt().format(DATE_TIME_FORMATTER),
+                    app.getDecidedAt() == null ? "-" : app.getDecidedAt().format(DATE_TIME_FORMATTER),
+                    defaultValue(app.getDecisionReason(), "사유 미기재")
+            );
+            String messageId = sendEmail(toEmail, "[사물함] 신청 결과 안내", plainText, htmlContent);
             emailLog.markSent(messageId);
         } catch (Exception e) {
             log.error("거절 메일 발송 실패: {}", e.getMessage(), e);
@@ -153,13 +196,13 @@ public class EmailService {
         }
     }
 
-    private String sendEmail(String to, String subject, String htmlContent) throws MessagingException {
+    private String sendEmail(String to, String subject, String plainText, String htmlContent) throws MessagingException {
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 
         helper.setTo(to);
         helper.setSubject(subject);
-        helper.setText(htmlContent, true);
+        helper.setText(plainText, htmlContent);
         helper.setFrom("noreply@example.com");
 
         mailSender.send(message);
@@ -190,5 +233,98 @@ public class EmailService {
 
     private String defaultValue(String value, String fallback) {
         return value == null || value.isBlank() ? fallback : value;
+    }
+
+    private String buildApplicationConfirmationPlainText(
+            String applicantName,
+            Integer lockerNumber,
+            String appliedAt,
+            String grade,
+            String major,
+            String phone
+    ) {
+        return "사물함 신청 접수 완료\n"
+                + "안녕하세요, " + applicantName + "님.\n"
+                + "사물함 신청이 정상적으로 접수되었습니다.\n\n"
+                + "[신청 정보]\n"
+                + "- 사물함 번호: " + lockerNumber + "번\n"
+                + "- 신청 일시: " + appliedAt + "\n"
+                + "- 학년: " + grade + "\n"
+                + "- 전공: " + major + "\n"
+                + "- 연락처: " + phone + "\n\n"
+                + "사물함 관리 시스템\n"
+                + "자동 발송 메일입니다.";
+    }
+
+    private String buildAdminNotificationPlainText(
+            String applicantName,
+            String studentId,
+            String grade,
+            String major,
+            String phone,
+            String email,
+            Integer lockerNumber,
+            String appliedAt
+    ) {
+        return "신규 사물함 신청\n"
+                + "새로운 신청이 접수되었습니다.\n\n"
+                + "[신청자 정보]\n"
+                + "- 이름: " + applicantName + "\n"
+                + "- 학번: " + studentId + "\n"
+                + "- 학년: " + grade + "\n"
+                + "- 전공: " + major + "\n"
+                + "- 연락처: " + phone + "\n"
+                + "- 이메일: " + email + "\n\n"
+                + "[사물함 정보]\n"
+                + "- 사물함 번호: " + lockerNumber + "번\n"
+                + "- 신청 일시: " + appliedAt + "\n\n"
+                + "사물함 관리 시스템\n"
+                + "자동 발송 메일입니다.";
+    }
+
+    private String buildApprovalNotificationPlainText(
+            String applicantName,
+            Integer lockerNumber,
+            String rentalStartDate,
+            String rentalEndDate,
+            String approvedAt,
+            String depositAccount,
+            String depositAmount,
+            Integer depositDueDays
+    ) {
+        return "사물함 신청 승인\n"
+                + "안녕하세요, " + applicantName + "님.\n"
+                + "신청하신 사물함이 승인되었습니다.\n\n"
+                + "[대여 정보]\n"
+                + "- 사물함 번호: " + lockerNumber + "번\n"
+                + "- 대여 시작일: " + rentalStartDate + "\n"
+                + "- 반납 기한: " + rentalEndDate + "\n"
+                + "- 승인 일시: " + approvedAt + "\n\n"
+                + "[보증금 안내]\n"
+                + "- 입금 계좌: " + depositAccount + "\n"
+                + "- 입금 금액: " + depositAmount + "원\n"
+                + "- 입금 기한: 승인일로부터 " + depositDueDays + "일 이내\n\n"
+                + "사물함 관리 시스템\n"
+                + "자동 발송 메일입니다.";
+    }
+
+    private String buildRejectionNotificationPlainText(
+            String applicantName,
+            Integer lockerNumber,
+            String appliedAt,
+            String rejectedAt,
+            String decisionReason
+    ) {
+        return "사물함 신청 결과 안내\n"
+                + "안녕하세요, " + applicantName + "님.\n"
+                + "사물함 신청이 거절되었습니다.\n\n"
+                + "[거절 사유]\n"
+                + decisionReason + "\n\n"
+                + "[신청 정보]\n"
+                + "- 사물함 번호: " + lockerNumber + "번\n"
+                + "- 신청 일시: " + appliedAt + "\n"
+                + "- 거절 일시: " + rejectedAt + "\n\n"
+                + "사물함 관리 시스템\n"
+                + "자동 발송 메일입니다.";
     }
 }

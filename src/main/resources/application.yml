@@ -2,9 +2,6 @@ spring:
   profiles:
     active: local
 
-  # Gmail SMTP 설정
-  # MAIL_USERNAME: Gmail 주소
-  # MAIL_PASSWORD: Gmail 앱 비밀번호 (2단계 인증 필요)
   mail:
     host: smtp.gmail.com
     port: 587
@@ -35,6 +32,9 @@ jwt:
 
 cookie:
   secure: ${COOKIE_SECURE:false}
+
+admin:
+  email: ${ADMIN_EMAIL}
 
 springdoc:
   swagger-ui:
