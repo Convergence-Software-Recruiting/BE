@@ -1,220 +1,120 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>사물함 신청 거절</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', sans-serif;
-            background-color: #f5f7fa;
-            padding: 20px;
-            line-height: 1.6;
-        }
-        .email-container {
-            max-width: 600px;
-            margin: 0 auto;
-            background-color: #ffffff;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-        .header {
-            background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
-            padding: 40px 30px;
-            text-align: center;
-            color: white;
-        }
-        .logo {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 20px;
-            background-color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 42px;
-        }
-        .header h1 {
-            font-size: 24px;
-            font-weight: 600;
-            margin: 0;
-        }
-        .header p {
-            font-size: 14px;
-            opacity: 0.9;
-            margin-top: 8px;
-        }
-        .content {
-            padding: 40px 30px;
-        }
-        .greeting {
-            font-size: 16px;
-            color: #1f2937;
-            margin-bottom: 20px;
-        }
-        .message {
-            font-size: 15px;
-            color: #4b5563;
-            margin-bottom: 30px;
-            line-height: 1.8;
-        }
-        .reason-box {
-            background-color: #fef2f2;
-            border-left: 4px solid #ef4444;
-            border-radius: 8px;
-            padding: 24px;
-            margin: 24px 0;
-        }
-        .reason-box h3 {
-            font-size: 16px;
-            color: #991b1b;
-            margin-bottom: 12px;
-            font-weight: 600;
-        }
-        .reason-box p {
-            font-size: 14px;
-            color: #7f1d1d;
-            line-height: 1.8;
-        }
-        .info-box {
-            background-color: #f9fafb;
-            border-radius: 8px;
-            padding: 24px;
-            margin: 24px 0;
-        }
-        .info-box h3 {
-            font-size: 16px;
-            color: #374151;
-            margin-bottom: 16px;
-            font-weight: 600;
-        }
-        .info-item {
-            display: flex;
-            padding: 10px 0;
-            border-bottom: 1px solid #e5e7eb;
-        }
-        .info-item:last-child {
-            border-bottom: none;
-        }
-        .info-label {
-            flex: 0 0 120px;
-            font-size: 14px;
-            color: #6b7280;
-            font-weight: 500;
-        }
-        .info-value {
-            flex: 1;
-            font-size: 14px;
-            color: #1f2937;
-            font-weight: 600;
-        }
-        .reapply-box {
-            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
-            border-radius: 8px;
-            padding: 24px;
-            text-align: center;
-            margin: 24px 0;
-        }
-        .reapply-box p {
-            font-size: 14px;
-            color: #1e40af;
-            line-height: 1.6;
-        }
-        .footer {
-            background-color: #f9fafb;
-            padding: 30px;
-            text-align: center;
-            border-top: 1px solid #e5e7eb;
-        }
-        .footer p {
-            font-size: 13px;
-            color: #6b7280;
-            margin: 8px 0;
-        }
-        .footer a {
-            color: #3b82f6;
-            text-decoration: none;
-        }
-        .divider {
-            height: 1px;
-            background: linear-gradient(to right, transparent, #e5e7eb, transparent);
-            margin: 24px 0;
-        }
-    </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>사물함 신청 반려 안내</title>
 </head>
-<body>
-    <div class="email-container">
-        <div class="header">
-            <div class="logo">
-                ❌
-            </div>
-            <h1>사물함 신청 결과 안내</h1>
-            <p>신청이 거절되었습니다</p>
-        </div>
+<body style="margin:0; padding:0; background-color:#f3f5f9;">
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="border-collapse:collapse; background-color:#f3f5f9;">
+    <tr>
+        <td align="center" style="padding:28px 12px;">
+            <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="600"
+                   style="border-collapse:separate; width:100%; max-width:600px; background-color:#ffffff; border:1px solid #e6eaf2; border-radius:14px; overflow:hidden;">
 
-        <div class="content">
-            <div class="greeting">
-                안녕하세요, <strong th:text="${applicantName}">홍길동</strong>님
-            </div>
+                <tr>
+                    <td style="background-color:#dc2626; padding:22px 24px;">
+                        <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+                            <tr>
+                                <td style="vertical-align:middle;">
+                                    <img src="https://avatars.githubusercontent.com/u/251123293?s=200&v=4" alt="사물함 관리 시스템"
+                                         style="width:48px; height:48px; display:block;" />
+                                </td>
+                                <td style="padding-left:12px; vertical-align:middle; font-family:Arial,'Malgun Gothic',sans-serif; color:#ffffff;">
+                                    <div style="font-size:18px; line-height:24px; font-weight:700;">사물함 신청 반려</div>
+                                    <div style="font-size:13px; line-height:18px; opacity:0.9; padding-top:4px;">관리자 검토 결과 반려되었습니다</div>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
 
-            <div class="message">
-                안타깝게도 사물함 신청이 거절되었습니다.<br>
-                아래 사유를 확인해주시기 바랍니다.
-            </div>
+                <tr>
+                    <td style="padding:20px 24px 10px 24px; font-family:Arial,'Malgun Gothic',sans-serif;">
+                        <div style="font-size:14px; line-height:22px; color:#111827;">
+                            안녕하세요, <span th:text="${applicantName}" style="font-weight:700;">홍길동</span>님
+                        </div>
+                        <div style="padding-top:8px; font-size:13px; line-height:20px; color:#4b5563;">
+                            신청하신 사물함이 관리자 검토 결과 반려되었습니다.<br>
+                            아래 사유를 확인해주시기 바랍니다.
+                        </div>
+                    </td>
+                </tr>
 
-            <div class="reason-box">
-                <h3>📝 거절 사유</h3>
-                <p th:text="${decisionReason}">
-                    신청 조건 미달로 인해 거절되었습니다.
-                </p>
-            </div>
+                <tr>
+                    <td style="padding:12px 24px;">
+                        <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%"
+                               style="border-collapse:separate; border:1px solid #fecaca; border-radius:12px; overflow:hidden; background-color:#fef2f2;">
+                            <tr>
+                                <td style="padding:16px 14px; font-family:Arial,'Malgun Gothic',sans-serif;">
+                                    <div style="font-size:14px; line-height:20px; font-weight:700; color:#991b1b; margin-bottom:8px;">
+                                        반려 사유
+                                    </div>
+                                    <div th:text="${decisionReason}" style="font-size:13px; line-height:20px; color:#7f1d1d;">
+                                        제출 정보 확인이 필요합니다.
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
 
-            <div class="info-box">
-                <h3>📋 신청 정보</h3>
-                <div class="info-item">
-                    <div class="info-label">사물함 번호</div>
-                    <div class="info-value"><span th:text="${lockerNumber}">2</span>번</div>
-                </div>
-                <div class="info-item">
-                    <div class="info-label">신청 일시</div>
-                    <div class="info-value" th:text="${appliedAt}">2026-02-16 11:30</div>
-                </div>
-                <div class="info-item">
-                    <div class="info-label">거절 일시</div>
-                    <div class="info-value" th:text="${rejectedAt}">2026-02-16 15:00</div>
-                </div>
-            </div>
+                <tr>
+                    <td style="padding:0 24px 12px 24px;">
+                        <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%"
+                               style="border-collapse:separate; border:1px solid #e5e7eb; border-radius:12px; overflow:hidden; background-color:#f9fafb;">
+                            <tr>
+                                <td colspan="2" style="padding:14px 14px; background-color:#f3f4f6; border-bottom:1px solid #e5e7eb; font-family:Arial,'Malgun Gothic',sans-serif;">
+                                    <span style="font-size:14px; line-height:20px; font-weight:700; color:#374151;">신청 정보</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:140px; padding:10px 14px; border-bottom:1px solid #e5e7eb; font-family:Arial,'Malgun Gothic',sans-serif; color:#6b7280; font-size:13px;">사물함 번호</td>
+                                <td style="padding:10px 14px; border-bottom:1px solid #e5e7eb; font-family:Arial,'Malgun Gothic',sans-serif; color:#111827; font-size:13px; font-weight:700;">
+                                    <span th:text="${lockerNumber}">2</span>번
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:140px; padding:10px 14px; border-bottom:1px solid #e5e7eb; font-family:Arial,'Malgun Gothic',sans-serif; color:#6b7280; font-size:13px;">신청 일시</td>
+                                <td th:text="${appliedAt}" style="padding:10px 14px; border-bottom:1px solid #e5e7eb; font-family:Arial,'Malgun Gothic',sans-serif; color:#111827; font-size:13px; font-weight:700;">2026-02-16 11:30</td>
+                            </tr>
+                            <tr>
+                                <td style="width:140px; padding:10px 14px; font-family:Arial,'Malgun Gothic',sans-serif; color:#6b7280; font-size:13px;">반려 일시</td>
+                                <td th:text="${rejectedAt}" style="padding:10px 14px; font-family:Arial,'Malgun Gothic',sans-serif; color:#111827; font-size:13px; font-weight:700;">2026-02-20 00:00</td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
 
-            <div class="reapply-box">
-                <p>
-                    💡 <strong>재신청 안내</strong><br>
-                    거절 사유를 확인하신 후 조건을 충족하시면<br>
-                    다른 사물함으로 재신청하실 수 있습니다.
-                </p>
-            </div>
+                <tr>
+                    <td style="padding:0 24px 22px 24px;">
+                        <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%"
+                               style="border-collapse:separate; border:1px solid #bfdbfe; border-radius:12px; overflow:hidden; background-color:#dbeafe;">
+                            <tr>
+                                <td style="padding:14px; font-family:Arial,'Malgun Gothic',sans-serif;">
+                                    <div style="font-size:14px; line-height:20px; font-weight:700; color:#1e40af; margin-bottom:8px;">
+                                        재신청 안내
+                                    </div>
+                                    <div style="font-size:13px; line-height:20px; color:#1e3a8a;">
+                                        반려 사유를 보완한 뒤 다시 신청하실 수 있습니다.<br>
+                                        문의사항이 있으면 학생회로 연락해주세요.
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
 
-            <div class="divider"></div>
-
-            <p style="font-size: 14px; color: #6b7280; text-align: center;">
-                거절 사유에 대해 문의사항이 있으시면 연락주세요.
-            </p>
-        </div>
-
-        <div class="footer">
-            <p><strong>학생회 사물함 관리팀</strong></p>
-            <p>📧 Email: <a href="mailto:student@example.com">student@example.com</a></p>
-            <p>📞 Tel: 02-1234-5678</p>
-            <p style="margin-top: 20px; font-size: 12px; color: #9ca3af;">
-                본 메일은 발신 전용입니다. 회신하지 마세요.
-            </p>
-        </div>
-    </div>
+                <tr>
+                    <td align="center" style="padding:16px 24px; background-color:#f7f9fc; border-top:1px solid #e6eaf2; font-family:Arial,'Malgun Gothic',sans-serif; color:#6b7280; font-size:12px; line-height:18px;">
+                        <div style="font-weight:700; color:#374151;">사물함 관리 시스템</div>
+                        <div>문의사항이 있으시면 학생회로 연락주세요.</div>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
 </body>
 </html>
