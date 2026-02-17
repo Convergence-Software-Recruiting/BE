@@ -7,14 +7,19 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-public interface RentalRepository extends JpaRepository<Rental, Long> {
+public interface RentalRepository extends JpaRepository<Rental, Long>, JpaSpecificationExecutor<Rental> {
 
     List<Rental> findAllByReturnedAtIsNull();
+
+    @Query("SELECT r FROM Rental r JOIN FETCH r.locker WHERE r.returnedAt IS NULL")
+    List<Rental> findAllActiveWithLocker();
 
     List<Rental> findAllByLockerIdOrderByApprovedAtDesc(Long lockerId);
 
@@ -24,7 +29,17 @@ public interface RentalRepository extends JpaRepository<Rental, Long> {
 
     Optional<Rental> findByApplicationId(Long applicationId);
 
+    Optional<Rental> findByLockerIdAndReturnedAtIsNull(Long lockerId);
+
     long countByReturnedAtIsNull();
+
+    boolean existsByRenterPhoneAndReturnedAtIsNull(String renterPhone);
+
+    boolean existsByRenterEmailAndReturnedAtIsNull(String renterEmail);
+
+    @Query("SELECT CASE WHEN COUNT(r) > 0 THEN true ELSE false END FROM Rental r " +
+            "JOIN r.application a WHERE a.studentIdHash = :hash AND r.returnedAt IS NULL")
+    boolean existsActiveRentalByStudentIdHash(@Param("hash") String studentIdHash);
 
     @Modifying
     @Query("UPDATE Rental r SET r.returnedAt = :now, r.returnReason = :reason " +

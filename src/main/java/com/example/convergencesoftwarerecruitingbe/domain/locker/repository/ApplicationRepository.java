@@ -15,15 +15,15 @@ import java.util.List;
 public interface ApplicationRepository extends JpaRepository<Application, Long> {
 
     @Query("SELECT CASE WHEN COUNT(a) > 0 THEN true ELSE false END FROM LockerApplication a " +
-            "WHERE a.studentIdHash = :hash AND a.status IN :statuses")
-    boolean existsByStudentIdHashAndStatusIn(
+            "WHERE a.studentIdHash = :hash AND a.status = :status")
+    boolean existsByStudentIdHashAndStatus(
             @Param("hash") String studentIdHash,
-            @Param("statuses") List<ApplicationStatus> statuses
+            @Param("status") ApplicationStatus status
     );
 
-    boolean existsByPhoneAndStatusIn(String phone, List<ApplicationStatus> statuses);
+    boolean existsByPhoneAndStatus(String phone, ApplicationStatus status);
 
-    boolean existsByEmailAndStatusIn(String email, List<ApplicationStatus> statuses);
+    boolean existsByEmailAndStatus(String email, ApplicationStatus status);
 
     @Query("SELECT a FROM LockerApplication a WHERE :status IS NULL OR a.status = :status ORDER BY a.createdAt DESC")
     Page<Application> findAllByStatusFilter(@Param("status") ApplicationStatus status, Pageable pageable);
@@ -31,4 +31,6 @@ public interface ApplicationRepository extends JpaRepository<Application, Long> 
     long countByStatus(ApplicationStatus status);
 
     List<Application> findAllByLockerIdOrderByCreatedAtDesc(Long lockerId);
+
+    List<Application> findByLockerIdAndStatus(Long lockerId, ApplicationStatus status);
 }

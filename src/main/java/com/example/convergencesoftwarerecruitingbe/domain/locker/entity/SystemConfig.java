@@ -51,6 +51,7 @@ public class SystemConfig extends BaseTimeEntity {
 
     protected SystemConfig(
             Boolean applicationOpen,
+            LocalDate semesterStartDate,
             LocalDate semesterEndDate,
             LocalDate rentalEndDate,
             String depositAccount,
@@ -58,6 +59,7 @@ public class SystemConfig extends BaseTimeEntity {
             Integer depositDueDays
     ) {
         this.applicationOpen = applicationOpen;
+        this.semesterStartDate = semesterStartDate;
         this.semesterEndDate = semesterEndDate;
         this.rentalEndDate = rentalEndDate;
         this.depositAccount = depositAccount;
@@ -66,12 +68,22 @@ public class SystemConfig extends BaseTimeEntity {
     }
 
     public static SystemConfig create(
+            LocalDate semesterStartDate,
             LocalDate semesterEndDate,
             LocalDate rentalEndDate,
             String depositAccount,
             Integer depositAmount
     ) {
-        return new SystemConfig(false, semesterEndDate, rentalEndDate, depositAccount, depositAmount, 3);
+        return new SystemConfig(false, semesterStartDate, semesterEndDate, rentalEndDate, depositAccount, depositAmount, 3);
+    }
+
+    public static SystemConfig create(
+            LocalDate semesterEndDate,
+            LocalDate rentalEndDate,
+            String depositAccount,
+            Integer depositAmount
+    ) {
+        return create(null, semesterEndDate, rentalEndDate, depositAccount, depositAmount);
     }
 
     public void openApplication(LocalDate startDate, LocalDate endDate) {
@@ -82,5 +94,15 @@ public class SystemConfig extends BaseTimeEntity {
 
     public void closeApplication() {
         this.applicationOpen = false;
+    }
+
+    public boolean isWithinApplicationWindow(LocalDate today) {
+        if (!Boolean.TRUE.equals(this.applicationOpen)) {
+            return false;
+        }
+        if (this.applicationStartDate == null || this.applicationEndDate == null) {
+            return false;
+        }
+        return !today.isBefore(this.applicationStartDate) && !today.isAfter(this.applicationEndDate);
     }
 }

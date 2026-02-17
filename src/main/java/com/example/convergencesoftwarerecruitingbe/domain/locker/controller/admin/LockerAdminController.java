@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
@@ -52,5 +53,12 @@ public class LockerAdminController implements LockerAdminControllerDocs {
                         Map.Entry::getValue
                 ));
         return ResponseEntity.ok(result);
+    }
+
+    @Override
+    @PostMapping("/open-all")
+    public ResponseEntity<Map<String, Integer>> openAllLockers() {
+        int count = lockerService.openAllLockers();
+        return ResponseEntity.ok(Map.of("openedCount", count));
     }
 }

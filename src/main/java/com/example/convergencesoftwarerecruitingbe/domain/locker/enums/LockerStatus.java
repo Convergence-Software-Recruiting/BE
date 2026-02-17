@@ -8,7 +8,7 @@ public enum LockerStatus {
     RESERVED("예약됨"),
     IN_USE("사용 중"),
     BROKEN("고장"),
-    CLOSED("폐쇄");
+    CLOSED("사용 불가");
 
     private final String description;
 

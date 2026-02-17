@@ -4,7 +4,6 @@ import com.example.convergencesoftwarerecruitingbe.domain.locker.controller.clie
 import com.example.convergencesoftwarerecruitingbe.domain.locker.dto.request.ApplicationCreateRequest;
 import com.example.convergencesoftwarerecruitingbe.domain.locker.dto.response.ApplicationResponse;
 import com.example.convergencesoftwarerecruitingbe.domain.locker.service.ApplicationService;
-import com.example.convergencesoftwarerecruitingbe.domain.locker.service.SystemConfigService;
 import jakarta.persistence.OptimisticLockException;
 import jakarta.validation.Valid;
 import java.util.Map;
@@ -25,17 +24,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class LockerApplicationClientController implements LockerApplicationClientControllerDocs {
 
     private final ApplicationService applicationService;
-    private final SystemConfigService systemConfigService;
 
     @Override
     @PostMapping
     public ResponseEntity<ApplicationResponse> createApplication(
             @Valid @RequestBody ApplicationCreateRequest request
     ) {
-        if (!systemConfigService.isApplicationOpen()) {
-            throw new IllegalStateException("신청 기간이 아닙니다");
-        }
-
         ApplicationResponse response = applicationService.createApplication(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }

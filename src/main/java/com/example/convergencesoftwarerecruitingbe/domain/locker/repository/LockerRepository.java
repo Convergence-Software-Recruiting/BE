@@ -29,6 +29,15 @@ public interface LockerRepository extends JpaRepository<Locker, Long> {
     @Query("UPDATE Locker l SET l.status = :status WHERE l.id > 0")
     void updateAllStatus(@Param("status") LockerStatus status);
 
+    @Modifying
+    @Query("""
+            UPDATE Locker l
+            SET l.status = 'EMPTY'
+            WHERE l.status = 'CLOSED'
+            AND l.isFixed = false
+            """)
+    int bulkOpenAllLockers();
+
     interface LockerStatusCount {
         LockerStatus getStatus();
 

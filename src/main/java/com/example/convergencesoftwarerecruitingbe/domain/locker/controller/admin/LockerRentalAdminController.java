@@ -1,14 +1,21 @@
 package com.example.convergencesoftwarerecruitingbe.domain.locker.controller.admin;
 
 import com.example.convergencesoftwarerecruitingbe.domain.locker.controller.admin.docs.LockerRentalAdminControllerDocs;
+import com.example.convergencesoftwarerecruitingbe.domain.locker.dto.response.RentalHistoryResponse;
 import com.example.convergencesoftwarerecruitingbe.domain.locker.dto.response.RentalResponse;
+import com.example.convergencesoftwarerecruitingbe.domain.locker.enums.RentalStatus;
 import com.example.convergencesoftwarerecruitingbe.domain.locker.enums.ReturnReason;
 import com.example.convergencesoftwarerecruitingbe.domain.locker.service.LockerService;
 import com.example.convergencesoftwarerecruitingbe.domain.locker.service.RentalService;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -54,5 +61,18 @@ public class LockerRentalAdminController implements LockerRentalAdminControllerD
         int returnedCount = rentalService.autoReturnAll();
         lockerService.closeAllLockers();
         return ResponseEntity.ok(Map.of("returnedCount", returnedCount));
+    }
+
+    @Override
+    @GetMapping("/history")
+    public ResponseEntity<Page<RentalHistoryResponse>> getRentalHistory(
+            @RequestParam(required = false) LocalDate from,
+            @RequestParam(required = false) LocalDate to,
+            @RequestParam(required = false) Long lockerId,
+            @RequestParam(required = false) String studentIdHash,
+            @RequestParam(required = false) RentalStatus status,
+            @PageableDefault(size = 20, sort = "approvedAt", direction = Sort.Direction.DESC) Pageable pageable
+    ) {
+        return ResponseEntity.ok(rentalService.findRentalHistory(from, to, lockerId, studentIdHash, status, pageable));
     }
 }

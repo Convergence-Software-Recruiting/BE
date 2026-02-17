@@ -1,11 +1,14 @@
 package com.example.convergencesoftwarerecruitingbe.domain.locker.service;
 
 import com.example.convergencesoftwarerecruitingbe.domain.locker.dto.request.ApplicationDecisionRequest;
+import com.example.convergencesoftwarerecruitingbe.domain.locker.dto.response.RentalHistoryResponse;
 import com.example.convergencesoftwarerecruitingbe.domain.locker.dto.response.RentalResponse;
 import com.example.convergencesoftwarerecruitingbe.domain.locker.entity.Application;
 import com.example.convergencesoftwarerecruitingbe.domain.locker.entity.Rental;
 import com.example.convergencesoftwarerecruitingbe.domain.locker.entity.SystemConfig;
+import com.example.convergencesoftwarerecruitingbe.domain.locker.enums.RentalStatus;
 import com.example.convergencesoftwarerecruitingbe.domain.locker.enums.ReturnReason;
+import com.example.convergencesoftwarerecruitingbe.domain.locker.repository.RentalSpecification;
 import com.example.convergencesoftwarerecruitingbe.domain.locker.event.ApplicationApprovedEvent;
 import com.example.convergencesoftwarerecruitingbe.domain.locker.event.ApplicationRejectedEvent;
 import com.example.convergencesoftwarerecruitingbe.domain.locker.event.SemesterClosedEvent;
@@ -18,6 +21,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -101,6 +108,33 @@ public class RentalService {
                 .stream()
                 .map(RentalResponse::from)
                 .toList();
+    }
+
+    @Transactional(readOnly = true)
+    public Page<RentalHistoryResponse> findRentalHistory(
+            LocalDate from, LocalDate to,
+            Long lockerId, String studentIdHash,
+            RentalStatus status, Pageable pageable
+    ) {
+        Specification<Rental> spec = Specification.where(RentalSpecification.fetchJoins());
+
+        if (from != null) {
+            spec = spec.and(RentalSpecification.rentalEndDateAfterOrEqual(from));
+        }
+        if (to != null) {
+            spec = spec.and(RentalSpecification.rentalStartDateBeforeOrEqual(to));
+        }
+        if (lockerId != null) {
+            spec = spec.and(RentalSpecification.lockerIdEquals(lockerId));
+        }
+        if (studentIdHash != null) {
+            spec = spec.and(RentalSpecification.studentIdHashEquals(studentIdHash));
+        }
+        if (status != null) {
+            spec = spec.and(RentalSpecification.statusEquals(status));
+        }
+
+        return rentalRepository.findAll(spec, pageable).map(RentalHistoryResponse::from);
     }
 
     @Transactional

@@ -8,6 +8,7 @@ import com.example.convergencesoftwarerecruitingbe.domain.locker.enums.Applicati
 import com.example.convergencesoftwarerecruitingbe.domain.locker.event.ApplicationCreatedEvent;
 import com.example.convergencesoftwarerecruitingbe.domain.locker.repository.ApplicationRepository;
 import com.example.convergencesoftwarerecruitingbe.domain.locker.repository.LockerRepository;
+import com.example.convergencesoftwarerecruitingbe.domain.locker.repository.RentalRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,20 +30,35 @@ public class ApplicationService {
 
     private final ApplicationRepository applicationRepository;
     private final LockerRepository lockerRepository;
+    private final RentalRepository rentalRepository;
     private final ApplicationEventPublisher applicationEventPublisher;
+    private final SystemConfigService systemConfigService;
 
     @Transactional
     public ApplicationResponse createApplication(ApplicationCreateRequest request) {
-        List<ApplicationStatus> statuses = List.of(ApplicationStatus.SUBMITTED, ApplicationStatus.APPROVED);
+        if (!systemConfigService.isApplicationWindowOpen()) {
+            throw new IllegalStateException("신청 기간이 아닙니다");
+        }
 
-        boolean hasDuplicateStudentId = applicationRepository.existsByStudentIdHashAndStatusIn(
-                hashStudentId(request.getStudentId()),
-                statuses
-        );
-        boolean hasDuplicatePhone = applicationRepository.existsByPhoneAndStatusIn(request.getPhone(), statuses);
-        boolean hasDuplicateEmail = applicationRepository.existsByEmailAndStatusIn(request.getEmail(), statuses);
+        String studentIdHash = hashStudentId(request.getStudentId());
 
-        if (hasDuplicateStudentId || hasDuplicatePhone || hasDuplicateEmail) {
+        // 1) SUBMITTED 상태 신청이 존재하면 중복
+        boolean hasPendingApplication =
+                applicationRepository.existsByStudentIdHashAndStatus(studentIdHash, ApplicationStatus.SUBMITTED)
+                || applicationRepository.existsByPhoneAndStatus(request.getPhone(), ApplicationStatus.SUBMITTED)
+                || applicationRepository.existsByEmailAndStatus(request.getEmail(), ApplicationStatus.SUBMITTED);
+
+        if (hasPendingApplication) {
+            throw new IllegalStateException("이미 신청 내역이 있습니다");
+        }
+
+        // 2) 활성 대여(returnedAt IS NULL)가 존재하면 중복
+        boolean hasActiveRental =
+                rentalRepository.existsActiveRentalByStudentIdHash(studentIdHash)
+                || rentalRepository.existsByRenterPhoneAndReturnedAtIsNull(request.getPhone())
+                || rentalRepository.existsByRenterEmailAndReturnedAtIsNull(request.getEmail());
+
+        if (hasActiveRental) {
             throw new IllegalStateException("이미 신청 내역이 있습니다");
         }
 

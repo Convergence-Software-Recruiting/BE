@@ -29,6 +29,7 @@ public class SystemConfigService {
     @Transactional
     public SystemConfigResponse createConfig(SystemConfigUpdateRequest request) {
         SystemConfig config = SystemConfig.create(
+                request.getSemesterStartDate(),
                 request.getSemesterEndDate(),
                 request.getRentalEndDate(),
                 request.getDepositAccount(),
@@ -60,6 +61,13 @@ public class SystemConfigService {
     @Transactional(readOnly = true)
     public boolean isApplicationOpen() {
         return systemConfigRepository.isApplicationOpen()
+                .orElse(false);
+    }
+
+    @Transactional(readOnly = true)
+    public boolean isApplicationWindowOpen() {
+        return systemConfigRepository.findFirstByOrderByCreatedAtDesc()
+                .map(config -> config.isWithinApplicationWindow(LocalDate.now()))
                 .orElse(false);
     }
 }
