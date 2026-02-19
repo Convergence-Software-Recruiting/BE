@@ -2,6 +2,21 @@ spring:
   profiles:
     active: local
 
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
+
   jpa:
     open-in-view: false
     properties:
@@ -17,6 +32,9 @@ jwt:
 
 cookie:
   secure: ${COOKIE_SECURE:false}
+
+admin:
+  email: ${ADMIN_EMAIL}
 
 springdoc:
   swagger-ui:

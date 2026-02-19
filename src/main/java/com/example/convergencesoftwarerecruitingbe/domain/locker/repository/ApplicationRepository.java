@@ -1,0 +1,36 @@
+package com.example.convergencesoftwarerecruitingbe.domain.locker.repository;
+
+import com.example.convergencesoftwarerecruitingbe.domain.locker.entity.Application;
+import com.example.convergencesoftwarerecruitingbe.domain.locker.enums.ApplicationStatus;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+@Repository("lockerApplicationRepository")
+public interface ApplicationRepository extends JpaRepository<Application, Long> {
+
+    @Query("SELECT CASE WHEN COUNT(a) > 0 THEN true ELSE false END FROM LockerApplication a " +
+            "WHERE a.studentIdHash = :hash AND a.status = :status")
+    boolean existsByStudentIdHashAndStatus(
+            @Param("hash") String studentIdHash,
+            @Param("status") ApplicationStatus status
+    );
+
+    boolean existsByPhoneAndStatus(String phone, ApplicationStatus status);
+
+    boolean existsByEmailAndStatus(String email, ApplicationStatus status);
+
+    @Query("SELECT a FROM LockerApplication a WHERE :status IS NULL OR a.status = :status ORDER BY a.createdAt DESC")
+    Page<Application> findAllByStatusFilter(@Param("status") ApplicationStatus status, Pageable pageable);
+
+    long countByStatus(ApplicationStatus status);
+
+    List<Application> findAllByLockerIdOrderByCreatedAtDesc(Long lockerId);
+
+    List<Application> findByLockerIdAndStatus(Long lockerId, ApplicationStatus status);
+}

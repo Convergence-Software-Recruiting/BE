@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>사물함 이용 안내</title>
+</head>
+<body style="margin:0; padding:0; background-color:#f3f5f9;">
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="border-collapse:collapse; background-color:#f3f5f9;">
+    <tr>
+        <td align="center" style="padding:28px 12px;">
+            <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="600"
+                   style="border-collapse:separate; width:100%; max-width:600px; background-color:#ffffff; border:1px solid #e6eaf2; border-radius:14px; overflow:hidden;">
+
+                <tr>
+                    <td style="background-color:#0b2d5b; padding:22px 24px;">
+                        <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+                            <tr>
+                                <td style="vertical-align:middle;">
+                                    <img src="https://avatars.githubusercontent.com/u/251123293?s=200&v=4" alt="사물함 관리 시스템"
+                                         style="width:48px; height:48px; display:block;" />
+                                </td>
+                                <td style="padding-left:12px; vertical-align:middle; font-family:Arial,'Malgun Gothic',sans-serif; color:#ffffff;">
+                                    <div style="font-size:18px; line-height:24px; font-weight:700;">사물함 신청 승인</div>
+                                    <div style="font-size:13px; line-height:18px; opacity:0.9; padding-top:4px;">사물함 이용 정보가 발급되었습니다</div>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding:20px 24px 10px 24px; font-family:Arial,'Malgun Gothic',sans-serif;">
+                        <div style="font-size:14px; line-height:22px; color:#111827;">
+                            안녕하세요, <span th:text="${applicantName}" style="font-weight:700;">홍길동</span>님 🎉
+                        </div>
+                        <div style="padding-top:8px; font-size:13px; line-height:20px; color:#4b5563;">
+                            사물함 이용이 승인되었습니다. 아래 위치 및 비밀번호를 확인해주세요.
+                        </div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding:12px 24px 0 24px;">
+                        <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%"
+                               style="border-collapse:separate; border:1px solid #e6eaf2; border-radius:12px; overflow:hidden; background-color:#ffffff;">
+                            <tr>
+                                <td colspan="2" style="padding:14px 14px; background-color:#f7f9fc; border-bottom:1px solid #e6eaf2; font-family:Arial,'Malgun Gothic',sans-serif;">
+                                    <span style="font-size:14px; line-height:20px; font-weight:700; color:#111827;">이용 정보</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:140px; padding:10px 14px; border-bottom:1px solid #eef2f7; font-family:Arial,'Malgun Gothic',sans-serif; color:#6b7280; font-size:13px;">사물함 번호</td>
+                                <td style="padding:10px 14px; border-bottom:1px solid #eef2f7; font-family:Arial,'Malgun Gothic',sans-serif; color:#111827; font-size:13px; font-weight:700;"><span th:text="${lockerNumber}">2</span>번</td>
+                            </tr>
+                            <tr>
+                                <td style="width:140px; padding:10px 14px; border-bottom:1px solid #eef2f7; font-family:Arial,'Malgun Gothic',sans-serif; color:#6b7280; font-size:13px;">사용 시작일</td>
+                                <td th:text="${rentalStartDate}" style="padding:10px 14px; border-bottom:1px solid #eef2f7; font-family:Arial,'Malgun Gothic',sans-serif; color:#111827; font-size:13px; font-weight:700;">2026-02-16</td>
+                            </tr>
+                            <tr>
+                                <td style="width:140px; padding:10px 14px; border-bottom:1px solid #eef2f7; font-family:Arial,'Malgun Gothic',sans-serif; color:#6b7280; font-size:13px;">반납 기한</td>
+                                <td th:text="${rentalEndDate}" style="padding:10px 14px; border-bottom:1px solid #eef2f7; font-family:Arial,'Malgun Gothic',sans-serif; color:#111827; font-size:13px; font-weight:700;">2026-06-27</td>
+                            </tr>
+                            <tr>
+                                <td style="width:140px; padding:10px 14px; font-family:Arial,'Malgun Gothic',sans-serif; color:#6b7280; font-size:13px;">승인 일시</td>
+                                <td th:text="${approvedAt}" style="padding:10px 14px; font-family:Arial,'Malgun Gothic',sans-serif; color:#111827; font-size:13px; font-weight:700;">2026-02-16 14:30</td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding:14px 24px 0 24px;">
+                        <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%"
+                               style="border-collapse:separate; border:1px solid #dbeafe; border-radius:12px; overflow:hidden; background-color:#eff6ff;">
+                            <tr>
+                                <td colspan="2" style="padding:14px 14px; background-color:#dbeafe; border-bottom:1px solid #bfdbfe; font-family:Arial,'Malgun Gothic',sans-serif;">
+                                    <span style="font-size:14px; line-height:20px; font-weight:700; color:#1e3a8a;">사물함 위치 / 비밀번호</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:140px; padding:10px 14px; border-bottom:1px solid #bfdbfe; font-family:Arial,'Malgun Gothic',sans-serif; color:#1e40af; font-size:13px;">위치</td>
+                                <td th:text="${lockerLocation}" style="padding:10px 14px; border-bottom:1px solid #bfdbfe; font-family:Arial,'Malgun Gothic',sans-serif; color:#1e3a8a; font-size:13px; font-weight:700;">본관 2층 A구역</td>
+                            </tr>
+                            <tr>
+                                <td style="width:140px; padding:10px 14px; font-family:Arial,'Malgun Gothic',sans-serif; color:#1e40af; font-size:13px;">비밀번호</td>
+                                <td th:text="${lockerPassword}" style="padding:10px 14px; font-family:Arial,'Malgun Gothic',sans-serif; color:#1e3a8a; font-size:13px; font-weight:700;">1234</td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding:14px 24px 22px 24px;">
+                        <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%"
+                               style="border-collapse:separate; border:1px solid #e5e7eb; border-radius:12px; overflow:hidden; background-color:#f9fafb;">
+                            <tr>
+                                <td style="padding:14px; font-family:Arial,'Malgun Gothic',sans-serif;">
+                                    <div style="font-size:14px; line-height:20px; font-weight:700; color:#374151; margin-bottom:8px;">간단 사용 안내</div>
+                                    <div style="font-size:13px; line-height:20px; color:#4b5563;">1. 수령 후 즉시 비밀번호 동작 여부를 확인해주세요.</div>
+                                    <div style="font-size:13px; line-height:20px; color:#4b5563;">2. 개인 물품 분실 방지를 위해 문을 항상 잠가주세요.</div>
+                                    <div style="font-size:13px; line-height:20px; color:#4b5563;">3. 반납 기한 내 비움 및 반납 절차를 완료해주세요.</div>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td align="center" style="padding:16px 24px; background-color:#f7f9fc; border-top:1px solid #e6eaf2; font-family:Arial,'Malgun Gothic',sans-serif; color:#6b7280; font-size:12px; line-height:18px;">
+                        <div style="font-weight:700; color:#374151;">사물함 관리 시스템</div>
+                        <div>자동 발송 메일입니다.</div>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

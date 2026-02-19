@@ -24,6 +24,7 @@ minio:
   bucket: ${MINIO_BUCKET}
 
 admin:
+  email: ${ADMIN_EMAIL:admin@example.com}
   seed:
     username: ${ADMIN_SEED_USERNAME:}
     password: ${ADMIN_SEED_PASSWORD:}
