@@ -1,9 +1,7 @@
 package com.example.convergencesoftwarerecruitingbe.domain.recruit.client.application.entity;
 
 import com.example.convergencesoftwarerecruitingbe.domain.recruit.admin.form.entity.Form;
-import com.example.convergencesoftwarerecruitingbe.global.common.ApplicationStatus;
-import com.example.convergencesoftwarerecruitingbe.global.common.Grade;
-import com.example.convergencesoftwarerecruitingbe.global.common.Major;
+import com.example.convergencesoftwarerecruitingbe.global.common.*;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -23,6 +21,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -63,6 +62,25 @@ public class Application {
 
     @Column(nullable = false)
     private String phone;
+
+    @Column(nullable = false)
+    private LocalDate birthDate;
+
+    @Enumerated(EnumType.STRING) // Enum 적용
+    @Column(nullable = false)
+    private Gender gender;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Department firstChoice;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Department secondChoice;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Department thirdChoice;
 
     @Column(name = "result_code", nullable = false, length = 4, updatable = false)
     private String resultCode;

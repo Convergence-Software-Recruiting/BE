@@ -81,6 +81,11 @@ public class ApplicationSubmitService {
                 .major(request.getMajor())
                 .grade(request.getGrade())
                 .phone(request.getPhone())
+                .birthDate(request.getBirthDate())
+                .gender(request.getGender())
+                .firstChoice(request.getFirstChoice())
+                .secondChoice(request.getSecondChoice())
+                .thirdChoice(request.getThirdChoice())
                 .resultCode(applicationResultCodeGenerator.generate(form.getId()))
                 .build();
         applicationRepository.save(application);

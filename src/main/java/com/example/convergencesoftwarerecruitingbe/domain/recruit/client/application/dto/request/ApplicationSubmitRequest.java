@@ -1,5 +1,7 @@
 package com.example.convergencesoftwarerecruitingbe.domain.recruit.client.application.dto.request;
 
+import com.example.convergencesoftwarerecruitingbe.global.common.Department;
+import com.example.convergencesoftwarerecruitingbe.global.common.Gender;
 import com.example.convergencesoftwarerecruitingbe.global.common.Grade;
 import com.example.convergencesoftwarerecruitingbe.global.common.Major;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -10,6 +12,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Getter
@@ -35,6 +38,26 @@ public class ApplicationSubmitRequest {
     @NotBlank
     @Schema(example = "010-1234-5678")
     private String phone;
+
+    @NotNull
+    @Schema(description = "생년월일", example = "2002-02-21")
+    private LocalDate birthDate;
+
+    @NotNull
+    @Schema(description = "성별", example = "MALE")
+    private Gender gender;
+
+    @NotNull
+    @Schema(description = "1지망 부서", example = "PLANNING")
+    private Department firstChoice;
+
+    @NotNull
+    @Schema(description = "2지망 부서", example = "WELFARE")
+    private Department secondChoice;
+
+    @NotNull
+    @Schema(description = "3지망 부서", example = "PUBLIC_RELATIONS")
+    private Department thirdChoice;
 
     @NotEmpty
     @Valid
