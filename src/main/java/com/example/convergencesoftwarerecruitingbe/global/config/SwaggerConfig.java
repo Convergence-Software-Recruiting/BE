@@ -32,7 +32,7 @@ public class SwaggerConfig {
 
         if (isProd()) {
             Server server = new Server();
-            server.setUrl("https://be.recruit.bluerack.org");
+            server.setUrl("https://be.mju-sw.bluerack.org");
             openAPI.servers(List.of(server));
         }
 
