@@ -8,6 +8,8 @@ import com.example.convergencesoftwarerecruitingbe.domain.recruit.admin.form.ent
 import com.example.convergencesoftwarerecruitingbe.domain.recruit.admin.form.entity.Question;
 import com.example.convergencesoftwarerecruitingbe.domain.recruit.admin.form.repository.FormRepository;
 import com.example.convergencesoftwarerecruitingbe.domain.recruit.admin.form.repository.QuestionRepository;
+import com.example.convergencesoftwarerecruitingbe.domain.recruit.client.application.repository.ApplicationAnswerRepository;
+import com.example.convergencesoftwarerecruitingbe.domain.recruit.client.application.repository.ApplicationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
@@ -23,6 +25,8 @@ public class AdminFormService {
 
     private final FormRepository formRepository;
     private final QuestionRepository questionRepository;
+    private final ApplicationRepository applicationRepository;
+    private final ApplicationAnswerRepository applicationAnswerRepository;
 
     @Transactional
     public AdminFormListItemResponse create(AdminFormCreateRequest request) {
@@ -73,5 +77,20 @@ public class AdminFormService {
         form.updateResultOpen(resultOpen);
         formRepository.flush();
         return AdminFormResultOpenResponse.from(form);
+    }
+
+    @Transactional
+    public void deleteForm(Long formId) {
+        Form form = formRepository.findById(formId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Form not found"));
+
+        if (form.isActive()) {
+            form.deactivate();
+        }
+
+        applicationAnswerRepository.deleteByApplicationFormId(formId);
+        applicationRepository.deleteByFormId(formId);
+        questionRepository.deleteByFormId(formId);
+        formRepository.delete(form);
     }
 }

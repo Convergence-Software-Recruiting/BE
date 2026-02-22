@@ -15,6 +15,8 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
 
     boolean existsByFormIdAndOrderNoAndIdNot(Long formId, Integer orderNo, Long id);
 
+    long deleteByFormId(Long formId);
+
     @Query("select coalesce(max(q.orderNo), 0) from Question q where q.form.id = :formId")
     Integer findMaxOrderNoByFormId(@Param("formId") Long formId);
 }

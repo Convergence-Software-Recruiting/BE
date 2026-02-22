@@ -19,4 +19,6 @@ public interface ApplicationRepository extends JpaRepository<Application, Long> 
     List<Application> findAllByOrderBySubmittedAtDesc();
 
     java.util.Optional<Application> findByFormIdAndResultCode(Long formId, String resultCode);
+
+    long deleteByFormId(Long formId);
 }
