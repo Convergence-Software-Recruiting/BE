@@ -30,10 +30,10 @@ public class ApplicationResultQueryService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "결과 코드를 확인해주세요"));
 
         if (application.getStatus() == ApplicationStatus.PASS) {
-            return new ApplicationResultResponse("PASS");
+            return new ApplicationResultResponse(application.getName(), "PASS");
         }
         if (application.getStatus() == ApplicationStatus.FAIL) {
-            return new ApplicationResultResponse("FAIL");
+            return new ApplicationResultResponse(application.getName(), "FAIL");
         }
         throw new ResponseStatusException(HttpStatus.CONFLICT, "결과가 아직 확정되지 않았습니다");
     }
