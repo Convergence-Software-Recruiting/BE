@@ -16,7 +16,7 @@ public interface ApplicationResultControllerDocs {
     @Operation(
             summary = "지원 결과 조회",
             description = """
-지원자는 제출 시 발급받은 4자리 결과 코드로 합격 여부(PASS/FAIL)만 조회할 수 있습니다.
+지원자는 제출 시 발급받은 4자리 결과 코드로 이름과 합격 여부(PASS/FAIL)를 조회할 수 있습니다.
 결과 조회는 관리자가 결과 공개를 활성화한 이후에만 가능합니다.
 """
     )
