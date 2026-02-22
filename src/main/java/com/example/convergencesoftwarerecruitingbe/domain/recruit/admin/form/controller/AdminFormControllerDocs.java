@@ -64,4 +64,13 @@ public interface AdminFormControllerDocs {
             @Valid
             @RequestBody @Schema(implementation = AdminFormResultOpenRequest.class, example = "{\"resultOpen\":true}") AdminFormResultOpenRequest request
     );
+
+    @Operation(summary = "모집 폼 삭제 (활성 상태면 자동 비활성화 후 연관 데이터까지 삭제)")
+    @ApiResponses({
+            @ApiResponse(responseCode = "204", description = "삭제 성공"),
+            @ApiResponse(responseCode = "404", description = "폼을 찾을 수 없음", content = @Content)
+    })
+    ResponseEntity<Void> delete(
+            @PathVariable Long id
+    );
 }

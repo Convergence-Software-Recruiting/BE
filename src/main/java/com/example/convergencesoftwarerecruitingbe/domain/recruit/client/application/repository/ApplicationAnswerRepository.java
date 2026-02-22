@@ -16,4 +16,6 @@ public interface ApplicationAnswerRepository extends JpaRepository<ApplicationAn
             where aa.application.id = :applicationId
             """)
     List<ApplicationAnswer> findAllByApplicationIdWithQuestion(@Param("applicationId") Long applicationId);
+
+    long deleteByApplicationFormId(Long formId);
 }
