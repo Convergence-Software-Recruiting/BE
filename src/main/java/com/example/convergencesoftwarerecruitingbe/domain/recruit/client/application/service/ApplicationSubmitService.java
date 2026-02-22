@@ -35,6 +35,13 @@ public class ApplicationSubmitService {
 
     @Transactional
     public ApplicationSubmitResponse submitToActiveForm(ApplicationSubmitRequest request) {
+
+        if (request.getFirstChoice() == request.getSecondChoice() ||
+                request.getFirstChoice() == request.getThirdChoice() ||
+                request.getSecondChoice() == request.getThirdChoice()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "1지망, 2지망, 3지망 부서는 중복해서 선택할 수 없습니다");
+        }
+
         Form form = formRepository.findFirstByActiveTrue()
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "현재 모집 중인 지원서가 없습니다"));
         if (!form.isActive()) {
