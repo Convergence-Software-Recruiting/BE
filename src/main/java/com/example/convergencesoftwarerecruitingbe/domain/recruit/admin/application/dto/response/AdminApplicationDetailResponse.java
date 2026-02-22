@@ -4,6 +4,7 @@ import com.example.convergencesoftwarerecruitingbe.domain.recruit.admin.form.ent
 import com.example.convergencesoftwarerecruitingbe.domain.recruit.client.application.entity.Application;
 import com.example.convergencesoftwarerecruitingbe.domain.recruit.client.application.entity.ApplicationAnswer;
 import com.example.convergencesoftwarerecruitingbe.global.common.ApplicationStatus;
+import com.example.convergencesoftwarerecruitingbe.global.common.Department;
 import com.example.convergencesoftwarerecruitingbe.global.common.Gender;
 import com.example.convergencesoftwarerecruitingbe.global.common.Grade;
 import com.example.convergencesoftwarerecruitingbe.global.common.Major;
@@ -28,6 +29,9 @@ public class AdminApplicationDetailResponse {
     private final Major major;
     private final Grade grade;
     private final String phone;
+    private final Department firstChoice;
+    private final Department secondChoice;
+    private final Department thirdChoice;
     private final LocalDate birthDate;
     private final Gender gender;
     private final String resultCode;
@@ -50,6 +54,9 @@ public class AdminApplicationDetailResponse {
                 .major(application.getMajor())
                 .grade(application.getGrade())
                 .phone(application.getPhone())
+                .firstChoice(application.getFirstChoice())
+                .secondChoice(application.getSecondChoice())
+                .thirdChoice(application.getThirdChoice())
                 .birthDate(application.getBirthDate())
                 .gender(application.getGender())
                 .resultCode(application.getResultCode())
