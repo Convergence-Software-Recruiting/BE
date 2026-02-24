@@ -13,6 +13,7 @@ import jakarta.mail.internet.MimeMessage;
 import java.time.format.DateTimeFormatter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -29,7 +30,9 @@ public class EmailService {
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     private static final String DEFAULT_LOCKER_LOCATION = "종합관 3층 인공지능소프트웨어융합대학교학팀 앞";
-    private static final String DEFAULT_LOCKER_PASSWORD = "1234";
+
+    @Value("${locker.default-password}")
+    private String defaultLockerPassword;
 
     private final AdminMailProperties adminMailProperties;
     private final JavaMailSender mailSender;
@@ -140,7 +143,7 @@ public class EmailService {
             context.setVariable("depositAmount", formatAmount(config.getDepositAmount()));
             context.setVariable("depositDueDays", config.getDepositDueDays() == null ? 3 : config.getDepositDueDays());
             context.setVariable("lockerLocation", DEFAULT_LOCKER_LOCATION);
-            context.setVariable("lockerPassword", DEFAULT_LOCKER_PASSWORD);
+            context.setVariable("lockerPassword", defaultLockerPassword);
 
             String htmlContent = templateEngine.process("email/application-approved", context);
             String plainText = buildApprovalNotificationPlainText(
