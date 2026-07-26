@@ -50,6 +50,9 @@ public class ApplicationResponse {
     @Schema(description = "결정 사유 (거절 시)", example = "보증금 미납")
     private String decisionReason;
 
+    @Schema(description = "신청 비밀번호 (3자리 숫자)", example = "123")
+    private String lockerPassword;
+
     public static ApplicationResponse from(Application application) {
         return ApplicationResponse.builder()
                 .id(application.getId())
@@ -63,6 +66,7 @@ public class ApplicationResponse {
                 .createdAt(application.getCreatedAt())
                 .decidedAt(application.getDecidedAt())
                 .decisionReason(application.getDecisionReason())
+                .lockerPassword(application.getLockerPassword())
                 .build();
     }
 }
