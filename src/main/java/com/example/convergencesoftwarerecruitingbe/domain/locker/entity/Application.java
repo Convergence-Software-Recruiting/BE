@@ -64,6 +64,9 @@ public class Application extends BaseTimeEntity {
     @Column(nullable = false)
     private Major major;
 
+    @Column(length = 3, nullable = false)
+    private String lockerPassword;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private ApplicationStatus status;
@@ -86,6 +89,7 @@ public class Application extends BaseTimeEntity {
             String email,
             Grade grade,
             Major major,
+            String lockerPassword,
             ApplicationStatus status
     ) {
         this.lockerId = lockerId;
@@ -97,6 +101,7 @@ public class Application extends BaseTimeEntity {
         this.email = email;
         this.grade = grade;
         this.major = major;
+        this.lockerPassword = lockerPassword;
         this.status = status;
     }
 
@@ -107,7 +112,8 @@ public class Application extends BaseTimeEntity {
             String phone,
             String email,
             Grade grade,
-            Major major
+            Major major,
+            String lockerPassword
     ) {
         return new Application(
                 locker.getId(),
@@ -119,6 +125,7 @@ public class Application extends BaseTimeEntity {
                 email,
                 grade,
                 major,
+                lockerPassword,
                 ApplicationStatus.SUBMITTED
         );
     }
