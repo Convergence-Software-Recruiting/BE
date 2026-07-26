@@ -36,9 +36,6 @@ cookie:
 admin:
   email: ${ADMIN_EMAIL}
 
-locker:
-  default-password: ${LOCKER_DEFAULT_PASSWORD}
-
 springdoc:
   swagger-ui:
     withCredentials: true
