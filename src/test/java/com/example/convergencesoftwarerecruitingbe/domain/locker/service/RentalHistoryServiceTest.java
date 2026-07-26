@@ -72,7 +72,7 @@ class RentalHistoryServiceTest {
         return Application.create(
                 locker, "테스트", studentId,
                 "010-0000-0000", studentId + "@test.com",
-                Grade.GRADE_3, Major.CONVERGENCE_SOFTWARE
+                Grade.GRADE_3, Major.CONVERGENCE_SOFTWARE, "000"
         );
     }
 
