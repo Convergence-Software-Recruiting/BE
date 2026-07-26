@@ -31,9 +31,6 @@ public class EmailService {
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     private static final String DEFAULT_LOCKER_LOCATION = "종합관 3층 인공지능소프트웨어융합대학교학팀 앞";
 
-    @Value("${locker.default-password}")
-    private String defaultLockerPassword;
-
     private final AdminMailProperties adminMailProperties;
     private final JavaMailSender mailSender;
     private final TemplateEngine templateEngine;
@@ -98,6 +95,7 @@ public class EmailService {
             context.setVariable("email", app.getEmail());
             context.setVariable("lockerNumber", app.getLocker().getNumber());
             context.setVariable("appliedAt", app.getCreatedAt().format(DATE_TIME_FORMATTER));
+            context.setVariable("lockerPassword", app.getLockerPassword());
 
             String htmlContent = templateEngine.process("email/admin-notification", context);
             String plainText = buildAdminNotificationPlainText(
@@ -108,7 +106,8 @@ public class EmailService {
                     app.getPhone(),
                     app.getEmail(),
                     app.getLocker().getNumber(),
-                    app.getCreatedAt().format(DATE_TIME_FORMATTER)
+                    app.getCreatedAt().format(DATE_TIME_FORMATTER),
+                    app.getLockerPassword()
             );
             String messageId = sendEmail(adminMailProperties.getEmail(), "[관리자] 신규 사물함 신청", plainText, htmlContent);
             emailLog.markSent(messageId);
@@ -143,7 +142,7 @@ public class EmailService {
             context.setVariable("depositAmount", formatAmount(config.getDepositAmount()));
             context.setVariable("depositDueDays", config.getDepositDueDays() == null ? 3 : config.getDepositDueDays());
             context.setVariable("lockerLocation", DEFAULT_LOCKER_LOCATION);
-            context.setVariable("lockerPassword", defaultLockerPassword);
+            context.setVariable("lockerPassword", app.getLockerPassword());
 
             String htmlContent = templateEngine.process("email/application-approved", context);
             String plainText = buildApprovalNotificationPlainText(
@@ -154,7 +153,8 @@ public class EmailService {
                     rental.getApprovedAt().format(DATE_TIME_FORMATTER),
                     defaultValue(config.getDepositAccount(), "미정"),
                     formatAmount(config.getDepositAmount()),
-                    config.getDepositDueDays() == null ? 3 : config.getDepositDueDays()
+                    config.getDepositDueDays() == null ? 3 : config.getDepositDueDays(),
+                    app.getLockerPassword()
             );
             String messageId = sendEmail(toEmail, "[사물함] 신청이 승인되었습니다", plainText, htmlContent);
             emailLog.markSent(messageId);
@@ -267,7 +267,8 @@ public class EmailService {
             String phone,
             String email,
             Integer lockerNumber,
-            String appliedAt
+            String appliedAt,
+            String lockerPassword
     ) {
         return "신규 사물함 신청\n"
                 + "새로운 신청이 접수되었습니다.\n\n"
@@ -280,7 +281,8 @@ public class EmailService {
                 + "- 이메일: " + email + "\n\n"
                 + "[사물함 정보]\n"
                 + "- 사물함 번호: " + lockerNumber + "번\n"
-                + "- 신청 일시: " + appliedAt + "\n\n"
+                + "- 신청 일시: " + appliedAt + "\n"
+                + "- 신청 비밀번호: " + lockerPassword + "\n\n"
                 + "사물함 관리 시스템\n"
                 + "자동 발송 메일입니다.";
     }
@@ -293,13 +295,15 @@ public class EmailService {
             String approvedAt,
             String depositAccount,
             String depositAmount,
-            Integer depositDueDays
+            Integer depositDueDays,
+            String lockerPassword
     ) {
         return "사물함 신청 승인\n"
                 + "안녕하세요, " + applicantName + "님.\n"
                 + "신청하신 사물함이 승인되었습니다.\n\n"
                 + "[대여 정보]\n"
                 + "- 사물함 번호: " + lockerNumber + "번\n"
+                + "- 비밀번호: " + lockerPassword + "\n"
                 + "- 대여 시작일: " + rentalStartDate + "\n"
                 + "- 반납 기한: " + rentalEndDate + "\n"
                 + "- 승인 일시: " + approvedAt + "\n\n"
