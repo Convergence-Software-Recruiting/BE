@@ -74,7 +74,8 @@ public class ApplicationService {
                 request.getPhone(),
                 request.getEmail(),
                 request.getGrade(),
-                request.getMajor()
+                request.getMajor(),
+                request.getLockerPassword()
         );
 
         Application saved = applicationRepository.save(application);
