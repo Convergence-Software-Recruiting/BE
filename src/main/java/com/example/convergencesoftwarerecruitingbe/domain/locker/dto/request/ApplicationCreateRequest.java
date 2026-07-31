@@ -5,6 +5,7 @@ import com.example.convergencesoftwarerecruitingbe.global.common.Major;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -46,4 +47,9 @@ public class ApplicationCreateRequest {
     @NotNull
     @Schema(description = "전공", example = "CONVERGENCE_SOFTWARE")
     private Major major;
+
+    @NotBlank
+    @Pattern(regexp = "\\d{3}", message = "비밀번호는 3자리 숫자여야 합니다")
+    @Schema(description = "사물함 비밀번호 (3자리 숫자)", example = "123")
+    private String lockerPassword;
 }

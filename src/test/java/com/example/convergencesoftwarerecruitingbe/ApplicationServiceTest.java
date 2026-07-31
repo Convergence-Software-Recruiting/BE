@@ -71,7 +71,7 @@ class ApplicationServiceTest {
         ApplicationCreateRequest request = new ApplicationCreateRequest(
                 locker.getId(), "홍길동", uniqueStudentId,
                 uniquePhone, uniqueEmail,
-                Grade.GRADE_3, Major.CONVERGENCE_SOFTWARE
+                Grade.GRADE_3, Major.CONVERGENCE_SOFTWARE, "000"
         );
 
         // when
@@ -92,7 +92,7 @@ class ApplicationServiceTest {
         ApplicationCreateRequest request = new ApplicationCreateRequest(
                 locker.getId(), "홍길동", uniqueStudentId,
                 uniquePhone, uniqueEmail,
-                Grade.GRADE_3, Major.CONVERGENCE_SOFTWARE
+                Grade.GRADE_3, Major.CONVERGENCE_SOFTWARE, "000"
         );
 
         // 첫 번째 신청 (성공)
@@ -105,7 +105,7 @@ class ApplicationServiceTest {
         ApplicationCreateRequest duplicateRequest = new ApplicationCreateRequest(
                 locker2.getId(), "홍길동2", uniqueStudentId,
                 "010-9999-0000", "other@test.com",
-                Grade.GRADE_3, Major.CONVERGENCE_SOFTWARE
+                Grade.GRADE_3, Major.CONVERGENCE_SOFTWARE, "000"
         );
 
         assertThatThrownBy(() -> applicationService.createApplication(duplicateRequest))

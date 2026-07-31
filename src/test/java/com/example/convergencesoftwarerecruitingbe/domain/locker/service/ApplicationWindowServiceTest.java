@@ -68,7 +68,7 @@ class ApplicationWindowServiceTest {
         return new ApplicationCreateRequest(
                 lockerId, "홍길동", "20240001",
                 "010-1234-5678", "test@example.com",
-                Grade.GRADE_3, Major.CONVERGENCE_SOFTWARE
+                Grade.GRADE_3, Major.CONVERGENCE_SOFTWARE, "000"
         );
     }
 
@@ -115,7 +115,7 @@ class ApplicationWindowServiceTest {
         Application application = Application.create(
                 locker, "홍길동", "20240001",
                 "010-1234-5678", "test@example.com",
-                Grade.GRADE_3, Major.CONVERGENCE_SOFTWARE
+                Grade.GRADE_3, Major.CONVERGENCE_SOFTWARE, "000"
         );
         given(applicationRepository.save(any(Application.class))).willReturn(application);
 
@@ -158,7 +158,7 @@ class ApplicationWindowServiceTest {
         Application application = Application.create(
                 locker, "홍길동", "20240001",
                 "010-1234-5678", "test@example.com",
-                Grade.GRADE_3, Major.CONVERGENCE_SOFTWARE
+                Grade.GRADE_3, Major.CONVERGENCE_SOFTWARE, "000"
         );
 
         given(applicationRepository.findById(1L)).willReturn(Optional.of(application));
@@ -199,7 +199,7 @@ class ApplicationWindowServiceTest {
         Application application = Application.create(
                 locker, "홍길동", "20240001",
                 "010-1234-5678", "test@example.com",
-                Grade.GRADE_3, Major.CONVERGENCE_SOFTWARE
+                Grade.GRADE_3, Major.CONVERGENCE_SOFTWARE, "000"
         );
         given(applicationRepository.save(any(Application.class))).willReturn(application);
 

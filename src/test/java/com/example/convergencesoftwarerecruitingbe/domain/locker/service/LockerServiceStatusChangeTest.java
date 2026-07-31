@@ -143,7 +143,7 @@ class LockerServiceStatusChangeTest {
 
     private Application createApplication(Locker locker) {
         return Application.create(locker, "테스트", "20241234", "010-1234-5678",
-                "test@test.com", Grade.GRADE_3, Major.CONVERGENCE_SOFTWARE);
+                "test@test.com", Grade.GRADE_3, Major.CONVERGENCE_SOFTWARE, "000");
     }
 
     private void setLockerId(Locker locker, Long id) {
